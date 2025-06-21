@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../provider/color_provider.dart';
@@ -12,7 +13,8 @@ import '../../../util/snackbar_helper.dart';  // import klasy SnackbarHelper
 class ShareApp extends StatelessWidget {
   const ShareApp({super.key});
 
-  final String _shareLink = 'https://appname.com/download';
+  final String _shortLink = 'https://play.google.com/store/apps';
+  final String _shareLink = 'https://play.google.com/store/apps/details?id=piotr.wisnia.go_gym_simple';
 
   void _copyLink(BuildContext context) {
     Clipboard.setData(ClipboardData(text: _shareLink));
@@ -98,13 +100,16 @@ class ShareApp extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Text(
-                      t.shareApp_inviteTitle,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: cp.accent,
+                    FittedBox(
+                      child: Text(
+                        t.shareApp_inviteTitle,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: cp.accent,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -124,7 +129,7 @@ class ShareApp extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              _shareLink,
+                              _shortLink,
                               style: TextStyle(color: cp.accent),
                             ),
                           ),
@@ -145,6 +150,64 @@ class ShareApp extends StatelessWidget {
                         backgroundColor: cp.accent.withOpacity(0.1),
                         textColor: cp.accent,
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: cp.secondary,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      t.shareApp_ratingTitle, // np. "Enjoying GoGymSimple?"
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: cp.accent,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      t.shareApp_ratingSubtitle, // np. "Would you like to rate GoGymSimple? Your review helps others discover the app."
+                      style: TextStyle(
+                        color: cp.accent.withOpacity(0.7),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: TextButton.icon(
+                            onPressed: () async {
+                              final Uri url = Uri.parse('https://play.google.com/store/apps/details?id=piotr.wisnia.go_gym_simple&reviewId=0');
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url, mode: LaunchMode.externalApplication);
+                              }
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: cp.accent.withOpacity(0.1),
+                              foregroundColor: cp.accent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            icon: Icon(Icons.thumb_up, color: cp.accent),
+                            label: Text(
+                              t.shareApp_ratingYes,
+                              style: TextStyle(color: cp.accent),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

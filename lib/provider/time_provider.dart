@@ -2,43 +2,68 @@ import 'package:flutter/material.dart';
 
 class TimeProvider with ChangeNotifier {
   bool isRunning = false;
+  bool isExpanded = true;
+
+  DateTime? _startTime;
   Duration elapsed = Duration.zero;
-  Duration totalTime = Duration.zero;
-  final Stopwatch _stopwatch = Stopwatch();
 
   String get formattedElapsed {
-    final minutes = (elapsed.inSeconds ~/ 60).toString().padLeft(2, '0');
-    final seconds = (elapsed.inSeconds % 60).toString().padLeft(2, '0');
-    final milliseconds = (elapsed.inMilliseconds % 1000)
-        .toString().padLeft(3, '0').substring(0, 2); // Pokazujemy tylko 2 cyfry milisekund
-    return '$minutes : $seconds . $milliseconds';
+    final totalElapsed = _getElapsedTime();
+    final hours = totalElapsed.inHours;
+    final minutes = (totalElapsed.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (totalElapsed.inSeconds % 60).toString().padLeft(2, '0');
+    final milliseconds = (totalElapsed.inMilliseconds % 1000)
+        .toString().padLeft(3, '0').substring(0, 2);
+
+    if (hours > 0) {
+      return '${hours.toString().padLeft(2, '0')} : $minutes : $seconds . $milliseconds';
+    } else {
+      return '$minutes : $seconds . $milliseconds';
+    }
   }
 
   void start() {
-    _stopwatch.start();
-    isRunning = true;
-    _updateTime();
-    notifyListeners();
+    if (!isRunning) {
+      _startTime = DateTime.now().subtract(elapsed);
+      isRunning = true;
+      _updateTime();
+      notifyListeners();
+    }
   }
 
   void stop() {
-    _stopwatch.stop();
-    isRunning = false;
-    notifyListeners();
+    if (isRunning) {
+      elapsed = _getElapsedTime();
+      isRunning = false;
+      notifyListeners();
+    }
   }
 
   void reset() {
-    _stopwatch.reset();
-    elapsed = Duration.zero;
-    totalTime = Duration.zero;
+    if (isRunning) {
+      _startTime = DateTime.now();
+      elapsed = Duration.zero;
+    } else {
+      _startTime = null;
+      elapsed = Duration.zero;
+    }
+    notifyListeners();
+  }
+
+  void toggleExpanded() {
+    isExpanded = !isExpanded;
     notifyListeners();
   }
 
   void _updateTime() {
-    if (_stopwatch.isRunning) {
-      elapsed = _stopwatch.elapsed;
-      Future.delayed(const Duration(milliseconds: 30), _updateTime);
+    if (isRunning) {
       notifyListeners();
+      Future.delayed(const Duration(milliseconds: 30), _updateTime);
     }
+  }
+
+  Duration _getElapsedTime() {
+    if (!isRunning || _startTime == null) return elapsed;
+    return DateTime.now().difference(_startTime!);
   }
 }

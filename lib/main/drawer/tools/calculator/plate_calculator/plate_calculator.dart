@@ -254,30 +254,45 @@ class _PlateCalculatorState extends State<PlateCalculator> {
                       final plate = allPlateSizes[index];
                       bool isSelected = selectedPlates.contains(plate);
                       return Container(
+                        width: 95,
+                        height: 36,
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? colorProvider.accent
-                              : colorProvider.secondary,
+                              ? colorProvider.accent // Selected background color
+                              : colorProvider.secondary, // Unselected background color
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: isSelected
-                                ? colorProvider.secondary
-                                : colorProvider.accent,
-                            width: 1,
+                            color: colorProvider.accent.withOpacity(0.5),
+                            width: 1.5,
                           ),
                         ),
                         child: InkWell(
                           onTap: () => _togglePlateSelection(plate),
                           borderRadius: BorderRadius.circular(8),
                           child: Center(
-                            child: Text(
-                              "${formatWeight(plate)} ${_isPounds ? 'lbs' : 'kg'}",
-                              style: TextStyle(
-                                color: isSelected
-                                    ? colorProvider.secondary
-                                    : colorProvider.accent,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            // Changed to Row to allow for both Icon and Text
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center, // Center contents horizontally
+                              mainAxisSize: MainAxisSize.min, // Make the row take minimum horizontal space
+                              children: [
+                                if (isSelected) // Only show the checkmark if the plate is selected
+                                  Icon(
+                                    Icons.check,
+                                    color: colorProvider.secondary, // Checkmark color
+                                    size: 18, // Adjust size as needed to fit well within the button height
+                                  ),
+                                if (isSelected) // Add a small space between the checkmark and the text
+                                  const SizedBox(width: 4),
+                                Text(
+                                  "${formatWeight(plate)} ${_isPounds ? 'lbs' : 'kg'}",
+                                  style: TextStyle(
+                                    color: isSelected
+                                        ? colorProvider.secondary // Selected text color
+                                        : colorProvider.accent.withOpacity(0.5), // Unselected text color
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -287,6 +302,8 @@ class _PlateCalculatorState extends State<PlateCalculator> {
                 ],
               ),
             ),
+            // wysokość nad floating btn
+            const SizedBox(height: 66)
           ],
         ),
       ),

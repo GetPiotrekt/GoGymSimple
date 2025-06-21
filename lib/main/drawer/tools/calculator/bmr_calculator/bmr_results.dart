@@ -38,8 +38,8 @@ class BMRResults extends StatelessWidget {
 
     // Wyświetlamy tylko zakres w gramach
     return t.bmrResults_proteinOnlyGrams(
-      minProtein.toStringAsFixed(0),
       maxProtein.toStringAsFixed(0),
+      minProtein.toStringAsFixed(0),
     );
   }
 

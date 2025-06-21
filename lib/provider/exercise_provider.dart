@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../data/data_tab_sector/exercise_db.dart';
-import '../data/workout_db.dart';
+import '../data/workout/workout_db.dart';
 
 class ExerciseProvider extends ChangeNotifier {
   List<Exercise> _allExercises = [];
@@ -88,5 +88,9 @@ class ExerciseProvider extends ChangeNotifier {
     WorkoutBox.box.listenable().removeListener(_loadData);
     ExerciseBox.box.listenable().removeListener(_loadData);
     super.dispose();
+  }
+
+  Future<void> refreshData() async {
+    _loadData();
   }
 }

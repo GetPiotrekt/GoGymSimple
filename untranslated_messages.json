@@ -1,1 +1,51 @@
-{}
+{
+  "es_CO": [
+    "measurementTracker_measurementDate",
+    "weightTracker_legendWeightSaved",
+    "tabBottomDrawer_editExercise",
+    "tabSector_userGym",
+    "tabSector_filter",
+    "notificationList_deleteAll",
+    "notificationList_confirmAll_title",
+    "notificationList_confirmAll_content",
+    "notificationForm_testNotification",
+    "watchAds_error",
+    "donateSections_storeUnavailableMessage",
+    "workoutScreen_firstTime",
+    "restoreSession_title",
+    "restoreSession_info",
+    "restoreSession_content",
+    "restoreSession_confirm",
+    "restoreSession_deny",
+    "editDeleteBottomSheet_edit",
+    "editDeleteBottomSheet_delete",
+    "noTrainingSection_noSaved",
+    "noTrainingSection_startNew",
+    "noTrainingSection_addPrevious"
+  ],
+
+  "es_ES": [
+    "measurementTracker_measurementDate",
+    "weightTracker_legendWeightSaved",
+    "tabBottomDrawer_editExercise",
+    "tabSector_userGym",
+    "tabSector_filter",
+    "notificationList_deleteAll",
+    "notificationList_confirmAll_title",
+    "notificationList_confirmAll_content",
+    "notificationForm_testNotification",
+    "watchAds_error",
+    "donateSections_storeUnavailableMessage",
+    "workoutScreen_firstTime",
+    "restoreSession_title",
+    "restoreSession_info",
+    "restoreSession_content",
+    "restoreSession_confirm",
+    "restoreSession_deny",
+    "editDeleteBottomSheet_edit",
+    "editDeleteBottomSheet_delete",
+    "noTrainingSection_noSaved",
+    "noTrainingSection_startNew",
+    "noTrainingSection_addPrevious"
+  ]
+}

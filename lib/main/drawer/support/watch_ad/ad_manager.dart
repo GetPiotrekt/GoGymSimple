@@ -10,10 +10,11 @@ class AdManager {
 
   static Future<void> loadRewardedAd(
       ConfettiController konfettiController,
-      VoidCallback onReward,
-      ) async {
+      VoidCallback onReward, {
+        VoidCallback? onAdFailedToLoad,
+      }) async {
     RewardedAd.load(
-      adUnitId: 'ca-app-pub-5706836528130524/1024816752',
+      adUnitId: 'ca-app-pub-5706836528130524/8789881854',
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
@@ -34,10 +35,14 @@ class AdManager {
         },
         onAdFailedToLoad: (error) {
           print('❌ Nie udało się załadować reklamy: $error');
+          if (onAdFailedToLoad != null) {
+            onAdFailedToLoad();
+          }
         },
       ),
     );
   }
+
 
   static Future<void> _incrementWatchedAds() async {
     final adsStr = ConfigBox.getConfig('ads') ?? '0';

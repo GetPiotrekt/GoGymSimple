@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
-import '../data/workout_db.dart'; // Zaimportuj poprawną ścieżkę do WorkoutBox
+import '../data/workout/workout_db.dart'; // Zaimportuj poprawną ścieżkę do WorkoutBox
 
 class LandingPageProvider extends ChangeNotifier {
+  bool _isIconPressed = false; // flaga interfejsu
+
+  bool get isIconPressed => _isIconPressed;
+
+  void setEditingNote(bool value) {
+    if (_isIconPressed != value) {
+      _isIconPressed = value;
+      notifyListeners();
+
+      if (value == true) {
+        Future.delayed(const Duration(seconds: 2), () {
+          _isIconPressed = false;
+          notifyListeners();
+        });
+      }
+    }
+  }
+
   /// Pobiera globalną notatkę z Hive dla danego treningu
   String getGlobalNote(int workoutID) {
     final workout = WorkoutBox.getWorkoutByID(workoutID);

@@ -128,6 +128,7 @@
   "plateDialog_close": "Sluiten",
   "plateDialog_invalidWeight": "Gewicht moet groter zijn dan het staangaangewicht",
   "plateDialog_invalidTargetWeight": "Doelgewicht te laag",
+  "plateDialog_noCombinationFound": "Er is geen geldige combinatie van halterschijven voor het gekozen gewicht",
 
   "measurementTile_noData": "Nog geen gegevens. Druk op meten om een nieuwe waarde toe te voegen",
   "measurementTile_addData": "Meten",
@@ -151,6 +152,7 @@
   "measurementTracker_invalid_value": "Ongeldige waarde!",
   "measurementTracker_invalid_category": "Geselecteerde categorie is ongeldig!",
   "measurementTracker_add_category_hint": "Je kunt een nieuwe categorie toevoegen met de knop hieronder.",
+  "measurementTracker_measurementDate": "Meetdatum",
 
   "weightTracker_title": "Gewicht bijhouden",
   "weightTracker_enterWeightKg": "Voer gewicht in (kg)",
@@ -159,6 +161,7 @@
   "weightTracker_updateWeight": "Gewicht bijwerken",
   "weightTracker_yourWeight": "Jouw gewicht",
   "weightTracker_daysAgo": " ({daysAgo} dagen geleden)",
+  "weightTracker_legendWeightSaved": "Dagen met opgeslagen gewicht",
 
   "drawer_tools_section": "Gereedschappen",
   "drawer_calculators_section": "Calculators",
@@ -210,11 +213,17 @@
   "tabBottomDrawer_enterGymName": "Voer de naam van de sportschool in",
   "tabBottomDrawer_enterUserName": "Voer de naam van de gebruiker in",
   "tabBottomDrawer_enterWorkoutPlanName": "Voer de naam van het trainingsschema in",
+  "tabBottomDrawer_editTitle": "Naam bewerken",
+  "tabBottomDrawer_editExercise": "Oefening bewerken",
+  "tabBottomDrawer_editLabel": "Voer een nieuwe naam in",
+  "tabBottomDrawer_refreshScreen": "Ververs het scherm om de wijzigingen te zien",
 
   "tabSector_gym": "Sportschool",
   "tabSector_user": "Gebruiker",
   "tabSector_exercise": "Oefening",
   "tabSector_workoutPlan": "Trainingsschema",
+  "tabSector_filter": "Filteren",
+  "tabSector_userGym": "Gebruiker & Sportschool",
 
   "sortSector_aToZ": "A ... Z",
   "sortSector_zToA": "Z ... A",
@@ -254,17 +263,17 @@
   "exerciseExpansion_changeNameTitle": "Wijzig naam van oefening",
   "exerciseExpansion_enterNewName": "Nieuwe naam voor oefening",
 
-  "addUserAndGym_title": "Wijs {exercise} toe aan gebruiker en sportschool",
+  "addUserAndGym_title": "Oefening toewijzen aan gebruiker en sportschool",
   "addUserAndGym_selectUser": "Selecteer gebruiker",
   "addUserAndGym_selectGym": "Selecteer sportschool",
   "addUserAndGym_confirmSelection": "Bevestig selectie",
   "addUserAndGym_workoutExists": "Deze training bestaat al voor de geselecteerde gebruiker en sportschool.",
-  "addUserAndGym_workoutGlobalNote": "Globale notitie voor oefening {exerciseName}",
+  "addUserAndGym_workoutGlobalNote": "Voeg een algemene notitie toe voor de oefening – bijv. instellingen van het apparaat, type greep, technische aanwijzingen, enz.",
 
   "resultsExpansion_title": "{userName} • {gymName}",
   "resultsExpansion_lastNoteDate": "Laatste notitie: {date}",
   "resultsExpansion_quickValue": "Stel snelle waarde in",
-  "resultsExpansion_quickValueSet": "Voer tekst of nummer in",
+  "resultsExpansion_quickValueSet": "bijv. trainingsdoel of beste set",
   "resultsExpansion_deleteWorkoutConfirmation": "Weet je zeker dat je deze sectie en alle resultaten wilt verwijderen?",
 
   "notes_title": "Trainingsnotities",
@@ -285,7 +294,7 @@
   "globalNote_hint": "Voer notitie in",
 
   "notificationScreen_title": "Meldingen",
-  "notificationScreen_permissionTooltip": "Vraag toestemming voor meldingen",
+  "notificationScreen_permissionTooltip": "Klik hier om bewerkbare meldingen in te schakelen",
 
   "notificationList_title": "Opgeslagen meldingen:",
   "notificationList_empty": "Geen opgeslagen meldingen.",
@@ -299,6 +308,9 @@
   "notificationList_type_custom": "Aangepast",
   "notificationList_confirm_title": "Bevestiging",
   "notificationList_confirm_content": "Weet je zeker dat je deze melding wilt verwijderen?",
+  "notificationList_deleteAll": "Verwijder alles",
+  "notificationList_confirmAll_title": "Alle meldingen verwijderen?",
+  "notificationList_confirmAll_content": "Weet je zeker dat je alle opgeslagen meldingen wilt verwijderen?",
 
   "notificationForm_titleLabel": "Meldingstitel:",
   "notificationForm_titleHint": "Typ een eigen meldingstitel...",
@@ -306,12 +318,12 @@
   "notificationForm_messageHint": "Typ een eigen meldingstekst...",
   "notificationForm_addNotification": "Voeg melding toe",
   "notificationForm_added": "Melding toegevoegd!",
-  "notificationForm_typeLabel": "Meldingstype:",
+  "notificationForm_typeLabel": "Herinnering:",
   "notificationForm_typeTraining": "Over training",
   "notificationForm_typeWeight": "Over gewicht meten",
   "notificationForm_typeMeasurement": "Over lichaamsmeting",
   "notificationForm_typeCustom": "Aangepast",
-  "notificationForm_modeLabel": "Meldingmodus:",
+  "notificationForm_modeLabel": "Schema:",
   "notificationForm_modeDaily": "Dagelijks",
   "notificationForm_modeInterval": "Elke X dagen",
   "notificationForm_modeWeekly": "Geselecteerde weekdagen",
@@ -330,6 +342,7 @@
   "notificationForm_defaultMessageWeight": "Herinnering om je gewicht te meten. Noteer het resultaat in de app.",
   "notificationForm_defaultTitleMeasurement": "Doe metingen",
   "notificationForm_defaultMessageMeasurement": "Tijd voor lichaamsmetingen. Volg je voortgang!",
+  "notificationForm_testNotification": "Notificatie testen",
 
   "timePicker_label": "Tijd",
 
@@ -337,6 +350,7 @@
   "watchAds_description": "Bekijk een korte video-advertentie om ons te steunen zonder geld uit te geven",
   "watchAds_button": "Bekijk advertentie",
   "watchAds_counter": "Bekeken advertenties:",
+  "watchAds_error": "Bedankt voor je steun! Helaas kon de advertentie niet worden geladen",
 
   "shareApp_title": "Deel de app",
   "shareApp_inviteTitle": "Deel de app met vrienden en familie!",
@@ -344,6 +358,9 @@
   "shareApp_shareButton": "Delen via...",
   "shareApp_linkCopied": "Link gekopieerd naar klembord",
   "shareApp_shareText": "Bekijk deze app:",
+  "shareApp_ratingTitle": "Vind je GoGymSimple leuk?",
+  "shareApp_ratingSubtitle": "Wil je GoGymSimple beoordelen? Jouw mening helpt anderen om de app te ontdekken.",
+  "shareApp_ratingYes": "Zeker!",
 
   "donate_title": "Steun Ons",
 
@@ -356,6 +373,7 @@
   "donateSections_oneTimeDesc": "Doe een eenmalige donatie naar keuze",
   "donateSections_oneTimeButton": "Doneer nu",
   "donateSections_voluntaryTitle": "100% Vrijwillig",
+  "donateSections_storeUnavailableMessage": "Winkel niet beschikbaar. Controleer je internetverbinding",
   "donateSections_voluntaryDesc": "Onthoud dat alle donaties volledig vrijwillig zijn. Je krijgt geen speciale functies of content – alleen onze oprechte dank voor je steun aan het project.",
 
   "welcomeExerciseStep_favoriteExercises": "Favoriete oefeningen",
@@ -399,5 +417,41 @@
 
   "welcomeEnd_welcome": "Welkom bij GoGymSimple",
 
-  "stopwatch_title": "Stopwatch"
+  "stopwatch_title": "Stopwatch",
+
+  "workoutScreen_title": "Training",
+  "workoutScreen_gym": "Kies sportschool",
+  "workoutScreen_gymAndDate": "Kies sportschool en datum",
+  "workoutScreen_selectGymFirst": "Kies eerst een sportschool",
+  "workoutScreen_noGymSelected": "Geen sportschool geselecteerd",
+  "workoutScreen_saved": "Training opgeslagen!",
+  "workoutScreen_participants": "Deelnemers",
+  "workoutScreen_plans": "Plannen",
+  "workoutScreen_exercises": "Oefeningen",
+  "workoutScreen_addExercise": "Oefening toevoegen",
+  "workoutScreen_addNote": "Notitie toevoegen",
+  "workoutScreen_saveNote": "Notitie opslaan",
+  "workoutScreen_savedNote": "Opgeslagen",
+  "workoutScreen_showMoreInfo": "Meer informatie tonen",
+  "workoutScreen_firstTime": "Eerste keer",
+
+  "restoreSession_title": "Training onderbroken",
+  "restoreSession_info": "Je vorige trainingssessie is onderbroken.",
+  "restoreSession_content": "Wil je je voortgang herstellen?",
+  "restoreSession_confirm": "Ja, herstellen",
+  "restoreSession_deny": "Opnieuw beginnen",
+
+  "saveWorkoutDialog_save_workout_title": "Wil je de training opslaan?",
+  "saveWorkoutDialog_save_workout_subtitle": "Sla deze training op om later terug te komen",
+  "saveWorkoutDialog_save_workout_button": "Training opslaan",
+  "saveWorkoutDialog_dont_save_workout_button": "Niet nu",
+  "saveWorkoutDialog_support_us_title": "Steun ons",
+  "saveWorkoutDialog_support_us_subtitle": "Bekijk een korte advertentie om de app te steunen!",
+
+  "editDeleteBottomSheet_edit": "Bewerken",
+  "editDeleteBottomSheet_delete": "Verwijderen",
+
+  "noTrainingSection_noSaved": "Geen opgeslagen trainingen voor deze oefening",
+  "noTrainingSection_startNew": "Om een nieuwe training te starten en resultaten op te slaan, klik op de knop:",
+  "noTrainingSection_addPrevious": "Je kunt deze knop ook gebruiken om vorige trainingen toe te voegen"
 }

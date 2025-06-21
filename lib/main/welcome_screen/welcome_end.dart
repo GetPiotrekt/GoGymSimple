@@ -16,7 +16,7 @@ class _WelcomeEndState extends State<WelcomeEnd> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _navigateToNextScreen(context);
     });
   }

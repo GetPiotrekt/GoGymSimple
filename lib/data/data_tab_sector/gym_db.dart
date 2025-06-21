@@ -39,44 +39,34 @@ class GymAdapter extends TypeAdapter<Gym> {
 }
 
 class GymBox {
-  static late Box<Gym> _box;
+  static late Box<Gym> box;
 
   static Future<void> initBox() async {
     await Hive.initFlutter();
     Hive.registerAdapter(GymAdapter());
-    _box = await Hive.openBox<Gym>('gym');
-
-/*    if (_box.isEmpty) {
-      await _addDefaultData();
-    }*/
+    box = await Hive.openBox<Gym>('gym');
   }
 
-/*  static Future<void> _addDefaultData() async {
-    await addGym('Gym 1');
-    await addGym('Gym 2');
-    await addGym('Gym 3');
-  }*/
-
   static Future<void> openBox() async {
-    _box = await Hive.openBox<Gym>('gym');
+    box = await Hive.openBox<Gym>('gym');
   }
 
   static Future<void> closeBox() async {
-    await _box.close();
+    await box.close();
   }
 
   static Future<int> addGym(String name) async {
     final int newIndex = await _getMaxIndex() + 1;
     final newGym = Gym(newIndex, name);
-    await _box.put(newIndex, newGym);
+    await box.put(newIndex, newGym);
     return newIndex;  // Zwracamy ID zapisanej siłowni
   }
 
   static Future<void> updateGym(int gymID, String newName) async {
-    final gymToUpdate = _box.values.firstWhereOrNull((gym) => gym.gymID == gymID);
+    final gymToUpdate = box.values.firstWhereOrNull((gym) => gym.gymID == gymID);
     if (gymToUpdate != null) {
       gymToUpdate.name = newName;
-      await _box.put(gymID, gymToUpdate);
+      await box.put(gymID, gymToUpdate);
       print("Gym with ID: $gymID updated.");
     } else {
       print("Gym with ID: $gymID not found.");
@@ -84,17 +74,17 @@ class GymBox {
   }
 
   static Gym? getGym(int gymID) {
-    return _box.get(gymID);
+    return box.get(gymID);
   }
 
   static Future<int> _getMaxIndex() async {
-    if (_box.isEmpty) return 0;
-    return _box.values.map((gym) => gym.gymID).reduce((a, b) => a > b ? a : b);
+    if (box.isEmpty) return 0;
+    return box.values.map((gym) => gym.gymID).reduce((a, b) => a > b ? a : b);
   }
 
   static Future<void> deleteGym(int gymID) async {
-    if (_box.containsKey(gymID)) {
-      await _box.delete(gymID);
+    if (box.containsKey(gymID)) {
+      await box.delete(gymID);
       print("Gym with ID: $gymID deleted.");
     } else {
       print("Gym with ID: $gymID not found.");
@@ -102,15 +92,15 @@ class GymBox {
   }
 
   static List<Gym> getAllGyms() {
-    return _box.values.toList();
+    return box.values.toList();
   }
 
   static List<int> getAllGymIDs() {
-    return _box.values.map((gym) => gym.gymID).toList();
+    return box.values.map((gym) => gym.gymID).toList();
   }
 
   static Future<void> deleteAllGyms() async {
-    await _box.clear();
+    await box.clear();
     print("All gyms deleted.");
   }
 }

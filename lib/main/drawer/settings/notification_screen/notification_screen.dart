@@ -1,13 +1,15 @@
+import 'package:GoGymSimple/main/drawer/settings/notification_screen/notification_form/notification_form.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
-import '../../../../data/notification_db.dart';
+import '../../../../data/notification/notification_db.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../provider/color_provider.dart';
 import '../../../../util/custom_appbar.dart';
-import 'notification_form.dart';
 import 'notification_list_section.dart';
+import 'notification_service.dart';
 
 enum NotificationMode { daily, intervalDays, weekly }
 
@@ -21,33 +23,35 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  final NotificationService _notificationService = NotificationService();
+  bool _hasPermission = false;
+  DateTime? _scheduledDate;
   List<AppNotification> _notifications = [];
-  bool _hasNotificationPermission = true;
 
   @override
   void initState() {
     super.initState();
-    _checkNotificationPermission();
-    _loadNotifications();
+    _initializeAndCheckPermissions();
+  }
+
+  Future<void> _initializeAndCheckPermissions() async {
+    await _notificationService.initNotification();
+    final status = await Permission.notification.status;
+    setState(() {
+      _hasPermission = status.isGranted;
+    });
+  }
+
+  Future<void> _requestPermission() async {
+    final status = await Permission.notification.request();
+    setState(() {
+      _hasPermission = status.isGranted;
+    });
   }
 
   Future<void> _loadNotifications() async {
     final saved = AppNotificationBox.getAll();
     setState(() => _notifications = saved);
-  }
-
-  Future<void> _checkNotificationPermission() async {
-    final status = await Permission.notification.status;
-    setState(() {
-      _hasNotificationPermission = status.isGranted;
-    });
-  }
-
-  Future<void> _requestNotificationPermission() async {
-    final status = await Permission.notification.request();
-    setState(() {
-      _hasNotificationPermission = status.isGranted;
-    });
   }
 
   @override
@@ -57,50 +61,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
     return Scaffold(
       backgroundColor: colorProvider.primary,
-      appBar: CustomAppBar(
-        title: t.notificationScreen_title,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 16),
-
-                    // Formularz dodawania nowego powiadomienia
-                    NotificationForm(
-                      onAdd: (Map<String, dynamic> newNotification) async {
-                        _loadNotifications();
-                      },
-                    ),
-
-                    const SizedBox(height: 16),
-
-                    // Lista zapisanych powiadomień
-                    NotificationListSection(
-                      notifications: _notifications,
-                      onUpdate: _loadNotifications,
-                    ),
-
-                    const SizedBox(height: 16),
-                  ],
-                ),
+      appBar: CustomAppBar(title: t.notificationScreen_title),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              NotificationForm(
+                onAdd: (Map<String, dynamic> newNotification) async {
+                  _loadNotifications();
+                },
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              // Lista zapisanych powiadomień
+              NotificationListSection(
+                onUpdate: _loadNotifications,
+              ),
+
+            ],
+          ),
         ),
       ),
-      floatingActionButton: !_hasNotificationPermission
-          ? FloatingActionButton(
-              backgroundColor: colorProvider.accent,
-              onPressed: _requestNotificationPermission,
-              tooltip: t.notificationScreen_permissionTooltip,
-              child: Icon(Icons.warning, color: colorProvider.secondary),
-            )
-          : null,
     );
   }
 }

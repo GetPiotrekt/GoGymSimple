@@ -1,193 +1,266 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../data/notification_db.dart';
+import '../../../../data/notification/notification_db.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../provider/color_provider.dart';
+import '../../../../provider/notification_provider.dart';
 import '../../../../util/dialog/confirmation_dialog.dart';
-import '../../../notification_service.dart';
+import 'notification_service.dart';
 
 class NotificationListSection extends StatelessWidget {
-  final List<AppNotification> notifications;
   final VoidCallback onUpdate;
 
   const NotificationListSection({
     super.key,
-    required this.notifications,
     required this.onUpdate,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorProvider = Provider.of<ColorProvider>(context);
+    final notificationProvider = Provider.of<NotificationProvider>(context);
     final t = AppLocalizations.of(context)!;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colorProvider.secondary,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: notifications.isEmpty
-          ? Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32.0),
-          child: Text(
-            t.notificationList_empty,
-            style: TextStyle(
-              color: colorProvider.accent.withOpacity(0.6),
-              fontSize: 16,
+    return FutureBuilder<List<AppNotification>>(
+      future: notificationProvider.notifications,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final notifications = snapshot.data!;
+
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: colorProvider.secondary,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: notifications.isEmpty
+              ? Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: Text(
+                t.notificationList_empty,
+                style: TextStyle(
+                  color: colorProvider.accent.withOpacity(0.6),
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
-            textAlign: TextAlign.center,
+          )
+              : Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                t.notificationList_title,
+                style: TextStyle(
+                  color: colorProvider.accent.withOpacity(0.8),
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: notifications.length,
+                separatorBuilder: (_, __) => Divider(
+                  color: colorProvider.accent.withOpacity(0.0),
+                ),
+                itemBuilder: (_, i) {
+                  final n = notifications[i];
+                  return _buildNotificationItem(
+                      context, n, colorProvider, t, notificationProvider);
+                },
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.maxFinite,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorProvider.accent.withOpacity(0.2),
+                    foregroundColor: colorProvider.accent,
+                  ),
+                  icon: const Icon(Icons.delete_forever),
+                  label: Text(t.notificationList_deleteAll),
+                  onPressed: () async {
+                    final confirmed = await showConfirmationDialog(
+                      context: context,
+                      title: t.notificationList_confirmAll_title,
+                      content: t.notificationList_confirmAll_content,
+                      onConfirmed: () {},
+                    );
+                    if (confirmed == true) {
+                      for (final n in notifications) {
+                        if (n.mode == 'daily') {
+                          await NotificationService().cancelScheduledNotification(n.id);
+                        } else if (n.mode == 'weekly') {
+                          await NotificationService().cancelWeeklyNotificationGroup(n.id);
+                        }
+                        await AppNotificationBox.delete(n.id);
+                      }
+                      notificationProvider.notifyListeners();
+                      onUpdate();
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildNotificationItem(
+      BuildContext context,
+      AppNotification n,
+      ColorProvider colorProvider,
+      AppLocalizations t,
+      NotificationProvider notificationProvider,
+      ) {
+    bool isLoading = false;
+    bool showCheckbox = true; // ustaw według potrzeb
+
+    return StatefulBuilder(builder: (context, setState) {
+      return GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: Text(n.title, style: TextStyle(color: colorProvider.accent)),
+              content: Text(n.message ?? '', style: TextStyle(color: colorProvider.accent.withOpacity(0.9))),
+              backgroundColor: colorProvider.secondary,
+              actions: [
+                TextButton(
+                  child: Text('OK', style: TextStyle(color: colorProvider.accent)),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+          );
+        },
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(2, 12, 18, 12),
+          decoration: BoxDecoration(
+            color: n.isActive
+                ? colorProvider.accent.withOpacity(0.2)
+                : colorProvider.accent.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            leading: IconButton(
+              icon: Icon(Icons.delete, color: colorProvider.accent.withValues(alpha: 0.6)),
+              onPressed: () async {
+                final confirmed = await showConfirmationDialog(
+                  context: context,
+                  title: t.notificationList_confirm_title,
+                  content: t.notificationList_confirm_content,
+                  onConfirmed: () {},
+                );
+                if (confirmed == true) {
+                  await AppNotificationBox.delete(n.id);
+                  notificationProvider.notifyListeners(); // Refresh list
+                  onUpdate();
+                }
+              },
+            ),
+            title: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "${_reminderTypeToString(n.type, t)} • ${_modeToString(n, t)}",
+                style: TextStyle(color: colorProvider.accent),
+              ),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.notificationList_hour(n.time.format(context)),
+                  style: TextStyle(color: colorProvider.accent.withOpacity(0.6)),
+                ),
+              ],
+            ),
+            trailing: isLoading
+                ? Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation(colorProvider.accent),
+                ),
+              ),
+            )
+                : (showCheckbox
+                ? GestureDetector(
+              onTap: () async {
+                setState(() => isLoading = true);
+
+                final newValue = !n.isActive;
+                await AppNotificationBox.updateActivation(n.id, newValue);
+
+                final now = DateTime.now();
+                final time = DateTime(
+                  now.year,
+                  now.month,
+                  now.day,
+                  n.time.hour,
+                  n.time.minute,
+                );
+
+                if (newValue == true) {
+                  if (n.mode == 'daily') {
+                    await NotificationService().scheduleDailyNotification(
+                      id: n.id * 10,
+                      title: n.title,
+                      body: n.message ?? '',
+                      payload: 'type:${n.type}',
+                      time: time,
+                    );
+                  } else if (n.mode == 'weekly') {
+                    await NotificationService().scheduleWeeklyNotifications(
+                      id: n.id,
+                      title: n.title,
+                      body: n.message ?? '',
+                      payload: 'reminder:${n.type}',
+                      time: time,
+                      weekdays: n.weekdays,
+                    );
+                  }
+                } else {
+                  if (n.mode == 'daily') {
+                    await NotificationService().cancelScheduledNotification(n.id);
+                  }
+                  if (n.mode == 'weekly') {
+                    await NotificationService().cancelWeeklyNotificationGroup(n.id);
+                  }
+                }
+
+                setState(() => isLoading = false);
+                notificationProvider.notifyListeners();
+                onUpdate();
+              },
+              child: Icon(
+                n.isActive ? Icons.check_box : Icons.check_box_outline_blank,
+                color: n.isActive
+                    ? colorProvider.accent
+                    : colorProvider.accent.withOpacity(0.6),
+                size: 24,
+              ),
+            )
+                : null),
           ),
         ),
-      )
-          : Column(
-        children: [
-          Text(
-            t.notificationList_title,
-            style: TextStyle(
-              color: colorProvider.accent.withOpacity(0.8),
-              fontSize: 16,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: notifications.length,
-            separatorBuilder: (_, __) => Divider(color: colorProvider.accent.withOpacity(0.0)),
-            itemBuilder: (_, i) {
-              final n = notifications[i];
-              return GestureDetector(
-                onLongPress: () async {
-                  final confirmed = await showConfirmationDialog(
-                    context: context,
-                    title: t.notificationList_confirm_title,
-                    content: t.notificationList_confirm_content,
-                    onConfirmed: () async {
-                      final notificationService = NotificationService();
-                      await notificationService.notificationsPlugin.cancel(n.id);
-                      await notificationService.cancelScheduledNotifications(startId: n.id * 1000, count: 100);
-                      await AppNotificationBox.delete(n.id);
-                      onUpdate();
-                    },
-                  );
-                  if (confirmed ?? false) {}
-                },
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                      title: Text(n.title, style: TextStyle(color: colorProvider.accent)),
-                      content: Text(n.message!, style: TextStyle(color: colorProvider.accent.withOpacity(0.9))),
-                      backgroundColor: colorProvider.secondary,
-                      actions: [
-                        TextButton(
-                          child: Text('OK', style: TextStyle(color: colorProvider.accent)),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 2),
-                  decoration: BoxDecoration(
-                    color: colorProvider.accent.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    title: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "${_reminderTypeToString(n.type, t)} • ${_modeToString(n, t)}",
-                        style: TextStyle(color: colorProvider.accent),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          t.notificationList_hour(n.time.format(context)),
-                          style: TextStyle(color: colorProvider.accent.withOpacity(0.6)),
-                        ),
-                      ],
-                    ),
-                    trailing: Checkbox(
-                      value: n.isActive,
-                      onChanged: (bool? value) async {
-                        if (value == null) return;
-
-                        await AppNotificationBox.updateActivation(n.id, value);
-
-                        final notificationService = NotificationService();
-                        if (value) {
-                          switch (n.mode) {
-                            case 'daily':
-                              await notificationService.scheduleDailyNotification(
-                                id: n.id,
-                                title: n.title,
-                                body: n.message.toString(),
-                                time: DateTime(0, 0, 0, n.time.hour, n.time.minute),
-                              );
-                              break;
-                            case 'intervalDays':
-                              final now = DateTime.now();
-                              final startTime = DateTime(now.year, now.month, now.day, n.time.hour, n.time.minute);
-                              await notificationService.scheduleNotificationsEveryNDays(
-                                startId: n.id * 1000,
-                                title: n.title,
-                                body: n.message.toString(),
-                                startTime: startTime,
-                                intervalInDays: n.intervalDays ?? 1,
-                                count: 100,
-                              );
-                              break;
-                            case 'weekly':
-                              final selectedDays = getSelectedDays(n.weekdays);
-                              await notificationService.scheduleWeeklyNotificationsOnDays(
-                                startId: n.id * 1000,
-                                title: n.title,
-                                body: n.message.toString(),
-                                daysOfWeek: selectedDays,
-                                time: DateTime(n.time.hour, n.time.minute),
-                              );
-                              break;
-                          }
-                        } else {
-                          await notificationService.notificationsPlugin.cancel(n.id);
-                          await notificationService.cancelScheduledNotifications(startId: n.id * 1000, count: 100);
-                        }
-
-                        onUpdate();
-                      },
-                      activeColor: colorProvider.accent,
-                      checkColor: colorProvider.secondary,
-                      fillColor: MaterialStateProperty.resolveWith<Color>(
-                            (Set<MaterialState> states) {
-                          // Jeśli checkbox jest aktywny — pełny kolor accent
-                          if (n.isActive) {
-                            return colorProvider.accent;
-                          } else {
-                            // Jeśli nieaktywny — accent z przezroczystością
-                            return colorProvider.accent.withOpacity(0.6);
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
+      );
+    });
   }
 
   String _reminderTypeToString(String type, AppLocalizations t) {
@@ -210,9 +283,11 @@ class NotificationListSection extends StatelessWidget {
       case 'daily':
         return t.notificationList_daily;
       case 'intervalDays':
+        if (n.intervalDays == 1) return t.notificationList_daily;
         return t.notificationList_interval(n.intervalDays.toString());
       case 'weekly':
-        final days = [t.notificationForm_weekdayMon,
+        final days = [
+          t.notificationForm_weekdayMon,
           t.notificationForm_weekdayTue,
           t.notificationForm_weekdayWed,
           t.notificationForm_weekdayThu,
@@ -220,20 +295,19 @@ class NotificationListSection extends StatelessWidget {
           t.notificationForm_weekdaySat,
           t.notificationForm_weekdaySun
         ];
-        final selected = n.weekdays.asMap().entries.where((e) => e.value).map((e) => days[e.key]);
-        return selected.isEmpty ? t.notificationList_weekly_none : selected.join(", ");
+        final selected = n.weekdays
+            .asMap()
+            .entries
+            .where((e) => e.value)
+            .map((e) => days[e.key]);
+        if (selected.length == 7) {
+          return t.notificationList_daily;
+        }
+        return selected.isEmpty
+            ? t.notificationList_weekly_none
+            : selected.join(", ");
       default:
         return n.mode;
     }
-  }
-
-  List<Day> getSelectedDays(List<bool> weekdays) {
-    final days = <Day>[];
-    for (int i = 0; i < weekdays.length; i++) {
-      if (weekdays[i]) {
-        days.add(Day.values[i]);
-      }
-    }
-    return days;
   }
 }

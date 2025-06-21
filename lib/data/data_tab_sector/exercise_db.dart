@@ -12,13 +12,17 @@ class Exercise {
   @HiveField(2)
   String iconPath;
 
-  Exercise(this.exerciseID, this.exerciseName, this.iconPath);
+  @HiveField(3, defaultValue: null)
+  String? note; // 🆕 Notatka (opcjonalna)
+
+  Exercise(this.exerciseID, this.exerciseName, this.iconPath, [this.note]);
 
   Map<String, dynamic> toJson() {
     return {
       'exerciseID': exerciseID,
       'name': exerciseName,
       'iconPath': iconPath,
+      'note': note,
     };
   }
 }
@@ -29,11 +33,23 @@ class ExerciseAdapter extends TypeAdapter<Exercise> {
 
   @override
   Exercise read(BinaryReader reader) {
-    return Exercise(
-      reader.readInt(),
-      reader.readString(),
-      reader.readString(),
-    );
+    final id = reader.readInt();
+    final name = reader.readString();
+    final icon = reader.readString();
+
+    String? note;
+
+    // Sprawdzamy, czy są dostępne jeszcze jakieś bajty do odczytu
+    if (reader.availableBytes > 0) {
+      final hasNote = reader.readBool();
+      if (hasNote) {
+        note = reader.readString();
+      }
+    } else {
+      note = null;
+    }
+
+    return Exercise(id, name, icon, note);
   }
 
   @override
@@ -41,6 +57,10 @@ class ExerciseAdapter extends TypeAdapter<Exercise> {
     writer.writeInt(obj.exerciseID);
     writer.writeString(obj.exerciseName);
     writer.writeString(obj.iconPath);
+    writer.writeBool(obj.note != null);
+    if (obj.note != null) {
+      writer.writeString(obj.note!);
+    }
   }
 }
 
@@ -51,17 +71,7 @@ class ExerciseBox {
     await Hive.initFlutter();
     Hive.registerAdapter(ExerciseAdapter());
     box = await Hive.openBox<Exercise>('exercise');
-
-/*    if (box.isEmpty) {
-      await _addDefaultExercises();
-    }*/
   }
-
-/*  static Future<void> _addDefaultExercises() async {
-    await addExercise('SQUAT', 'assets/icons/barbell.png');
-    await addExercise('BENCH PRESS', 'assets/icons/dumbbell.png');
-    await addExercise('PULL-UP', 'assets/icons/bodyweight.png');
-  }*/
 
   static Future<void> openBox() async {
     box = await Hive.openBox<Exercise>('exercise');
@@ -71,22 +81,32 @@ class ExerciseBox {
     await box.close();
   }
 
-  static Future<int> addExercise(String name, String iconPath) async {
+  static Future<int> addExercise(String name, String iconPath, [String? note]) async {
     final int newIndex = await _getMaxIndex() + 1;
-    final newExercise = Exercise(newIndex, name, iconPath);
+    final newExercise = Exercise(newIndex, name, iconPath, note);
     await box.put(newIndex, newExercise);
-
     return newIndex;
   }
 
-
-  static Future<void> updateExercise(int exerciseID, String newName, String newIconPath) async {
+  static Future<void> updateExercise(int exerciseID, String newName, String newIconPath, [String? newNote]) async {
     final exerciseToUpdate = box.values.firstWhereOrNull((ex) => ex.exerciseID == exerciseID);
     if (exerciseToUpdate != null) {
       exerciseToUpdate.exerciseName = newName;
       exerciseToUpdate.iconPath = newIconPath;
+      exerciseToUpdate.note = newNote;
       await box.put(exerciseID, exerciseToUpdate);
       print("Exercise with ID: $exerciseID updated.");
+    } else {
+      print("Exercise with ID: $exerciseID not found.");
+    }
+  }
+
+  static Future<void> updateNote(int exerciseID, String? newNote) async {
+    final exercise = box.get(exerciseID);
+    if (exercise != null) {
+      exercise.note = newNote;
+      await box.put(exerciseID, exercise);
+      print("Note for exercise ID $exerciseID updated.");
     } else {
       print("Exercise with ID: $exerciseID not found.");
     }

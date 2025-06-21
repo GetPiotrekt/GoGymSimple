@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../../data/workout_db.dart';
+import '../../../../../../data/workout/workout_db.dart';
 import '../../../../../../l10n/app_localizations.dart';
 import '../../../../../../provider/color_provider.dart';
 import '../../../../../../util/dates_and_time/date_picker.dart';
@@ -91,7 +91,7 @@ class _NotesState extends State<Notes> {
               Text(
                 t.notes_title,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: colorProvider.accent,
                 ),

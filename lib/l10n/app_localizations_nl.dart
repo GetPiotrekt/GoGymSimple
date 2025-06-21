@@ -397,6 +397,10 @@ class AppLocalizationsNl extends AppLocalizations {
   String get plateDialog_invalidTargetWeight => 'Doelgewicht te laag';
 
   @override
+  String get plateDialog_noCombinationFound =>
+      'Er is geen geldige combinatie van halterschijven voor het gekozen gewicht';
+
+  @override
   String get measurementTile_noData =>
       'Nog geen gegevens. Druk op meten om een nieuwe waarde toe te voegen';
 
@@ -472,6 +476,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Je kunt een nieuwe categorie toevoegen met de knop hieronder.';
 
   @override
+  String get measurementTracker_measurementDate => 'Meetdatum';
+
+  @override
   String get weightTracker_title => 'Gewicht bijhouden';
 
   @override
@@ -493,6 +500,9 @@ class AppLocalizationsNl extends AppLocalizations {
   String weightTracker_daysAgo(Object daysAgo) {
     return ' ($daysAgo dagen geleden)';
   }
+
+  @override
+  String get weightTracker_legendWeightSaved => 'Dagen met opgeslagen gewicht';
 
   @override
   String get drawer_tools_section => 'Gereedschappen';
@@ -641,6 +651,19 @@ class AppLocalizationsNl extends AppLocalizations {
       'Voer de naam van het trainingsschema in';
 
   @override
+  String get tabBottomDrawer_editTitle => 'Naam bewerken';
+
+  @override
+  String get tabBottomDrawer_editExercise => 'Oefening bewerken';
+
+  @override
+  String get tabBottomDrawer_editLabel => 'Voer een nieuwe naam in';
+
+  @override
+  String get tabBottomDrawer_refreshScreen =>
+      'Ververs het scherm om de wijzigingen te zien';
+
+  @override
   String get tabSector_gym => 'Sportschool';
 
   @override
@@ -651,6 +674,12 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get tabSector_workoutPlan => 'Trainingsschema';
+
+  @override
+  String get tabSector_userGym => 'Gebruiker & Sportschool';
+
+  @override
+  String get tabSector_filter => 'Filteren';
 
   @override
   String get sortSector_aToZ => 'A ... Z';
@@ -780,7 +809,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String addUserAndGym_title(Object exercise) {
-    return 'Wijs $exercise toe aan gebruiker en sportschool';
+    return 'Oefening toewijzen aan gebruiker en sportschool';
   }
 
   @override
@@ -798,7 +827,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String addUserAndGym_workoutGlobalNote(Object exerciseName) {
-    return 'Globale notitie voor oefening $exerciseName';
+    return 'Voeg een algemene notitie toe voor de oefening – bijv. instellingen van het apparaat, type greep, technische aanwijzingen, enz.';
   }
 
   @override
@@ -815,7 +844,8 @@ class AppLocalizationsNl extends AppLocalizations {
   String get resultsExpansion_quickValue => 'Stel snelle waarde in';
 
   @override
-  String get resultsExpansion_quickValueSet => 'Voer tekst of nummer in';
+  String get resultsExpansion_quickValueSet =>
+      'bijv. trainingsdoel of beste set';
 
   @override
   String get resultsExpansion_deleteWorkoutConfirmation =>
@@ -859,7 +889,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get notificationScreen_permissionTooltip =>
-      'Vraag toestemming voor meldingen';
+      'Klik hier om bewerkbare meldingen in te schakelen';
 
   @override
   String get notificationList_title => 'Opgeslagen meldingen:';
@@ -903,6 +933,16 @@ class AppLocalizationsNl extends AppLocalizations {
       'Weet je zeker dat je deze melding wilt verwijderen?';
 
   @override
+  String get notificationList_deleteAll => 'Verwijder alles';
+
+  @override
+  String get notificationList_confirmAll_title => 'Alle meldingen verwijderen?';
+
+  @override
+  String get notificationList_confirmAll_content =>
+      'Weet je zeker dat je alle opgeslagen meldingen wilt verwijderen?';
+
+  @override
   String get notificationForm_titleLabel => 'Meldingstitel:';
 
   @override
@@ -921,7 +961,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get notificationForm_added => 'Melding toegevoegd!';
 
   @override
-  String get notificationForm_typeLabel => 'Meldingstype:';
+  String get notificationForm_typeLabel => 'Herinnering:';
 
   @override
   String get notificationForm_typeTraining => 'Over training';
@@ -936,7 +976,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get notificationForm_typeCustom => 'Aangepast';
 
   @override
-  String get notificationForm_modeLabel => 'Meldingmodus:';
+  String get notificationForm_modeLabel => 'Schema:';
 
   @override
   String get notificationForm_modeDaily => 'Dagelijks';
@@ -996,6 +1036,9 @@ class AppLocalizationsNl extends AppLocalizations {
       'Tijd voor lichaamsmetingen. Volg je voortgang!';
 
   @override
+  String get notificationForm_testNotification => 'Notificatie testen';
+
+  @override
   String get timePicker_label => 'Tijd';
 
   @override
@@ -1010,6 +1053,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get watchAds_counter => 'Bekeken advertenties:';
+
+  @override
+  String get watchAds_error =>
+      'Bedankt voor je steun! Helaas kon de advertentie niet worden geladen';
 
   @override
   String get shareApp_title => 'Deel de app';
@@ -1029,6 +1076,16 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get shareApp_linkCopied => 'Link gekopieerd naar klembord';
+
+  @override
+  String get shareApp_ratingTitle => 'Vind je GoGymSimple leuk?';
+
+  @override
+  String get shareApp_ratingSubtitle =>
+      'Wil je GoGymSimple beoordelen? Jouw mening helpt anderen om de app te ontdekken.';
+
+  @override
+  String get shareApp_ratingYes => 'Zeker!';
 
   @override
   String get donate_title => 'Steun Ons';
@@ -1062,6 +1119,10 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get donateSections_voluntaryTitle => '100% Vrijwillig';
+
+  @override
+  String get donateSections_storeUnavailableMessage =>
+      'Winkel niet beschikbaar. Controleer je internetverbinding';
 
   @override
   String get donateSections_voluntaryDesc =>
@@ -1179,4 +1240,103 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get stopwatch_title => 'Stopwatch';
+
+  @override
+  String get workoutScreen_title => 'Training';
+
+  @override
+  String get workoutScreen_gym => 'Kies sportschool';
+
+  @override
+  String get workoutScreen_gymAndDate => 'Kies sportschool en datum';
+
+  @override
+  String get workoutScreen_selectGymFirst => 'Kies eerst een sportschool';
+
+  @override
+  String get workoutScreen_noGymSelected => 'Geen sportschool geselecteerd';
+
+  @override
+  String get workoutScreen_saved => 'Training opgeslagen!';
+
+  @override
+  String get workoutScreen_participants => 'Deelnemers';
+
+  @override
+  String get workoutScreen_plans => 'Plannen';
+
+  @override
+  String get workoutScreen_exercises => 'Oefeningen';
+
+  @override
+  String get workoutScreen_addExercise => 'Oefening toevoegen';
+
+  @override
+  String get workoutScreen_addNote => 'Notitie toevoegen';
+
+  @override
+  String get workoutScreen_saveNote => 'Notitie opslaan';
+
+  @override
+  String get workoutScreen_savedNote => 'Opgeslagen';
+
+  @override
+  String get workoutScreen_showMoreInfo => 'Meer informatie tonen';
+
+  @override
+  String get workoutScreen_firstTime => 'Eerste keer';
+
+  @override
+  String get restoreSession_title => 'Training onderbroken';
+
+  @override
+  String get restoreSession_info => 'Je vorige trainingssessie is onderbroken.';
+
+  @override
+  String get restoreSession_content => 'Wil je je voortgang herstellen?';
+
+  @override
+  String get restoreSession_confirm => 'Ja, herstellen';
+
+  @override
+  String get restoreSession_deny => 'Opnieuw beginnen';
+
+  @override
+  String get saveWorkoutDialog_save_workout_title =>
+      'Wil je de training opslaan?';
+
+  @override
+  String get saveWorkoutDialog_save_workout_subtitle =>
+      'Sla deze training op om later terug te komen';
+
+  @override
+  String get saveWorkoutDialog_save_workout_button => 'Training opslaan';
+
+  @override
+  String get saveWorkoutDialog_dont_save_workout_button => 'Niet nu';
+
+  @override
+  String get saveWorkoutDialog_support_us_title => 'Steun ons';
+
+  @override
+  String get saveWorkoutDialog_support_us_subtitle =>
+      'Bekijk een korte advertentie om de app te steunen!';
+
+  @override
+  String get editDeleteBottomSheet_edit => 'Bewerken';
+
+  @override
+  String get editDeleteBottomSheet_delete => 'Verwijderen';
+
+  @override
+  String get noTrainingSection_noSaved =>
+      'Geen opgeslagen trainingen voor deze oefening';
+
+  @override
+  String get noTrainingSection_startNew =>
+      'Om een nieuwe training te starten en resultaten op te slaan, klik op de knop:';
+
+  @override
+  String get noTrainingSection_addPrevious =>
+      'Je kunt deze knop ook gebruiken om vorige trainingen toe te voegen';
 }

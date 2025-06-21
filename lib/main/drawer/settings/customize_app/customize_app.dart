@@ -77,8 +77,12 @@ class _CustomizeAppState extends State<CustomizeApp> {
       body: Container(
         color: colorProvider.accent.withOpacity(0.1),
         child: ListView.builder(
-          itemCount: _groupedCombinations.length,
+          itemCount: _groupedCombinations.length + 1,
           itemBuilder: (context, index) {
+            if (index == _groupedCombinations.length) {
+              return const SizedBox(height: 66);
+            }
+
             final group = _groupedCombinations.keys.elementAt(index);
             final colorCombinations = _groupedCombinations[group]!;
 

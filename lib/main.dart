@@ -1,3 +1,5 @@
+import 'package:GoGymSimple/splash_screen.dart';
+import 'package:GoGymSimple/util/initializers/provider_initializer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,141 +7,53 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-import 'data/colors_db.dart';
-import 'data/config_db.dart';
-import 'data/data_tab_sector/gym_db.dart';
-import 'data/data_tab_sector/list_exercise_db.dart';
-import 'data/data_tab_sector/exercise_db.dart';
-import 'data/data_tab_sector/user_data/user_db.dart';
-import 'data/data_tab_sector/user_data/user_measurement_db.dart';
-import 'data/data_tab_sector/user_data/user_weight_db.dart';
-import 'data/notification_db.dart';
-import 'data/workout_db.dart';
+import 'main/drawer/settings/notification_screen/notification_service.dart';
 import 'l10n/app_localizations.dart';
-import 'provider/color_provider.dart';
-import 'provider/exercise_provider.dart';
-import 'provider/landing_page_provider.dart';
-import 'provider/notification_provider.dart';
-import 'provider/selected_options_provider.dart';
+import 'main/drawer/tools/tracker/measurement_tracker/measurement_tracker.dart';
+import 'main/drawer/tools/tracker/weight_tracker.dart';
+import 'main/workout_screen/workout_screen.dart';
 import 'provider/settings_provider.dart';
-import 'provider/time_provider.dart';
-import 'main/notification_service.dart';
-import 'main/theme/app_colors.dart';
-import 'main/landing_page/landing_page.dart';
-import 'main/welcome_screen/welcome_screen.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
-  await MobileAds.instance.initialize();
-  tz.initializeTimeZones();
+
+  runApp(
+    MultiProvider(
+      providers: getAppProviders(),
+      child: const MyApp(),
+    ),
+  );
+
+  // Opóźniona inicjalizacja cięższych zasobów (Delayed heavy initialization)
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    final notificationService = NotificationService();
+    await notificationService.initNotification();
+    await MobileAds.instance.initialize();
+    tz.initializeTimeZones();
+  });
+
+  // Błąd Fluttera – pokaż w trybie debug (Flutter error handler)
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.presentError(details);
   };
 
-  await ColorCombinationBox.initBox();
-  await ConfigBox.initBox();
-  await GymBox.initBox();
-  await ExerciseBox.initBox();
-  await ListExerciseBox.initBox();
-  await UserBox.initBox();
-  await WorkoutBox.initBox();
-  await UserWeightBox.initBox();
-  await UserMeasurementBox.initBox();
-  await AppNotificationBox.initBox();
+  // Blokuj orientację tylko do pionu (Lock portrait mode)
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
-
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ColorProvider()),
-        ChangeNotifierProvider(create: (_) => SelectedOptionsProvider()),
-        ChangeNotifierProvider(create: (_) => LandingPageProvider()),
-        ChangeNotifierProvider(create: (_) => ExerciseProvider()),
-        ChangeNotifierProvider(create: (_) => TimeProvider()),
-        ChangeNotifierProvider(create: (_) => SettingsProvider()),
-        ChangeNotifierProvider(create: (_) => NotificationProvider()),
-      ],
-      child: const MyApp(),
-    ),
-  );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool _colorsLoaded = false;
-  bool _showSplashScreen = true;
-  bool _settingsLoaded = false;
-  bool? _isFirstLaunch;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeApp();
-  }
-
-  Future<void> _initializeApp() async {
-    await AppColors.init();
-    await Provider.of<ColorProvider>(context, listen: false).loadColorsFromDatabase();
-    await Provider.of<SettingsProvider>(context, listen: false).loadSettings(); // Wczytaj język i ustawienia
-    bool isFirstLaunch = await ConfigBox.isFirstLaunch(); // Await here
-
-    Future.delayed(const Duration(seconds: 0), () {
-      setState(() {
-        _colorsLoaded = true;
-        _settingsLoaded = true;
-        _showSplashScreen = false;
-        _isFirstLaunch = isFirstLaunch;
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (_showSplashScreen) {
-      return const MaterialApp(
-        home: Scaffold(
-          backgroundColor: Colors.black38,
-          body: Center(
-            child: Text(
-              'GoGYM',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'BarlowSemiCondensed',
-                fontSize: 40,
-                fontWeight: FontWeight.w600,
-                height: 0.9,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (!_colorsLoaded || !_settingsLoaded) {
-      return const MaterialApp(
-        home: Scaffold(
-          backgroundColor: Colors.black38,
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-    }
-
     final locale = Provider.of<SettingsProvider>(context).getAppLocale;
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // <-- dodane
-
+      debugShowCheckedModeBanner: false,
       locale: locale,
+      navigatorKey: navigatorKey,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -149,14 +63,19 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [
         Locale('pl'),
         Locale('en'),
-        Locale('es', 'ES'), // Hiszpania
-        Locale('es', 'CO'), // Kolumbia
+        Locale('es', 'ES'),
+        Locale('es', 'CO'),
         Locale('it'),
         Locale('de'),
-        Locale('nl')
+        Locale('nl'),
       ],
+      routes: {
+        '/training': (context) => const WorkoutScreen(),
+        '/weight': (context) => const WeightTracker(),
+        '/measurements': (context) => const MeasurementTracker(),
+      },
       title: 'GoGYM',
-      home: _isFirstLaunch! ? const WelcomeScreen() : const LandingPage(),
+      home: const SplashScreen(),
     );
   }
 }

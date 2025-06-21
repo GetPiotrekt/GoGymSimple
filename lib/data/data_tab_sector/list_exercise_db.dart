@@ -45,13 +45,13 @@ class ListExerciseAdapter extends TypeAdapter<ListExercise> {
 }
 
 class ListExerciseBox {
-  static late Box<ListExercise> _box;
+  static late Box<ListExercise> box;
 
   static Future<void> initBox() async {
     await Hive.initFlutter();
     Hive.registerAdapter(ListExerciseAdapter());
-    _box = await Hive.openBox<ListExercise>('ExerciseLists');
-/*    if (_box.isEmpty) {
+    box = await Hive.openBox<ListExercise>('ExerciseLists');
+/*    if (box.isEmpty) {
       await addDefaultData();
     }*/
   }
@@ -64,11 +64,11 @@ class ListExerciseBox {
   static Future<void> addExerciseList(String workoutName, List<int> exerciseIDs) async {
     final int newIndex = await _getMaxIndex() + 1;
     final newExerciseList = ListExercise(newIndex, workoutName, exerciseIDs);
-    await _box.put(newIndex, newExerciseList);
+    await box.put(newIndex, newExerciseList);
   }
 
   static Future<int> _getMaxIndex() async {
-    final exerciseLists = _box.values.toList();
+    final exerciseLists = box.values.toList();
     int maxIndex = 0;
     for (final exerciseList in exerciseLists) {
       if (exerciseList.listExerciseID > maxIndex) {
@@ -79,25 +79,25 @@ class ListExerciseBox {
   }
 
   static List<ListExercise> getAllExerciseLists() {
-    return _box.values.toList();
+    return box.values.toList();
   }
 
   static Future<void> deleteAllExerciseLists() async {
-    await _box.clear();
+    await box.clear();
   }
 
   static Future<void> updateExerciseList(int listExerciseID, String workoutName, List<int> exerciseIDs) async {
     final updatedExerciseList = ListExercise(listExerciseID, workoutName, exerciseIDs);
-    await _box.put(listExerciseID, updatedExerciseList);
+    await box.put(listExerciseID, updatedExerciseList);
   }
 
 
   static ListExercise? getExerciseListByID(int id) {
-    return _box.get(id);
+    return box.get(id);
   }
 
   static Future<void> deleteExerciseListByID(int id) async {
-    await _box.delete(id);
+    await box.delete(id);
   }
 }
 

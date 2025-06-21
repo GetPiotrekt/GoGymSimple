@@ -1,20 +1,19 @@
+import 'package:GoGymSimple/main/landing_page/exercise_view/exercise_expansion/exercise_expansion_helper/no_training_section.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/data_tab_sector/gym_db.dart';
 import '../../../../data/data_tab_sector/user_data/user_db.dart';
 import '../../../../data/data_tab_sector/exercise_db.dart';
-import '../../../../data/workout_db.dart';
+import '../../../../data/workout/workout_db.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../provider/color_provider.dart';
 import '../../../../provider/exercise_provider.dart';
 import '../../../../provider/selected_options_provider.dart';
 import '../../../../provider/settings_provider.dart';
 import '../../../../util/dialog/confirmation_dialog.dart';
-import '../../../../util/dialog/text_input_dialog.dart';
-import 'add_user_and_gym.dart';
+import 'exercise_expansion_helper/add_user_and_gym.dart';
 import 'results_expansion/global_note.dart';
-import 'icon_selection.dart';
 import 'results_expansion/notes/notes.dart';
 import 'results_expansion/results_expansion.dart';
 
@@ -39,34 +38,50 @@ class ExerciseExpansion extends StatefulWidget {
 class _ExerciseExpansionState extends State<ExerciseExpansion> {
   String? selectedIconPath;
   bool _isExpanded = false;
+  late TextEditingController _noteController;
 
   @override
   void initState() {
     super.initState();
 
+    final exercise = ExerciseBox.getAllExercises()
+        .firstWhereOrNull((ex) => ex.exerciseID == widget.exerciseID);
+
+    _noteController = TextEditingController(text: exercise?.note ?? '');
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateExpansionState();
     });
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _updateExpansionState();
   }
 
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
+  }
+
   void _updateExpansionState() {
     final selectedOptions = context.read<SelectedOptionsProvider>();
-    final bool isSingleUserSelected = selectedOptions.user.isNotEmpty;
-    final bool isSingleGymSelected = selectedOptions.gym.isNotEmpty;
+    final bool isSingleUserSelected = selectedOptions.user.length == 1;
+    final bool isSingleGymSelected = selectedOptions.gym.length == 1;
+    final bool isSingleExerciseSelected = selectedOptions.exercise.length == 1;
 
-    final shouldExpandBecauseEmptyFiltered = _shouldDimContainer(widget.workoutsForExercise);
+    final shouldExpandBecauseEmptyFiltered =
+        _shouldDimContainer(widget.workoutsForExercise);
 
     setState(() {
-      _isExpanded = (isSingleUserSelected && isSingleGymSelected) || shouldExpandBecauseEmptyFiltered;
+      _isExpanded = (isSingleUserSelected && isSingleGymSelected) ||
+          shouldExpandBecauseEmptyFiltered ||
+          isSingleExerciseSelected;
     });
   }
 
-  // Filter workouts based on selected gym, user, and workout plan
   List<Workout> _filterWorkouts(List<Workout> workouts) {
     final selectedOptions = context.watch<SelectedOptionsProvider>();
 
@@ -80,27 +95,6 @@ class _ExerciseExpansionState extends State<ExerciseExpansion> {
     }).toList();
   }
 
-  void _showIconSelection(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return IconSelection(
-          onIconSelected: (selectedIcon) {
-            setState(() {
-              selectedIconPath = selectedIcon;
-              ExerciseBox.updateIconPath(widget.exerciseID, selectedIcon);
-            });
-          },
-        );
-      },
-    );
-  }
-
-  void _openAddDrawer(BuildContext context) {
-    final addDrawer = AddUserAndGym(widget.exerciseID);
-    addDrawer.open(context);
-  }
-
   bool _shouldDimContainer(List<Workout> workouts) {
     final selectedOptions = context.read<SelectedOptionsProvider>();
     final isFiltered =
@@ -108,32 +102,32 @@ class _ExerciseExpansionState extends State<ExerciseExpansion> {
     return isFiltered && workouts.isEmpty;
   }
 
+  void _updateNote(String newNote) {
+    ExerciseBox.updateNote(widget.exerciseID, newNote);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!; // Localized text
+    final t = AppLocalizations.of(context)!;
     final colorProvider = context.watch<ColorProvider>();
-    final settingsProvider = context.watch<SettingsProvider>();
+    context.watch<SettingsProvider>();
     final exercise = ExerciseBox.getAllExercises()
         .firstWhereOrNull((ex) => ex.exerciseID == widget.exerciseID);
-    final String iconPath =
-        selectedIconPath ?? exercise?.iconPath ?? 'assets/icons/default.png';
-    final bottomMargin =
-        widget.isLast ? (settingsProvider.getElementVisibility ? 80 : 16) : 8;
+    final String rawIconPath = selectedIconPath ?? exercise?.iconPath ?? '';
+    final String iconPath = rawIconPath.trim();
 
-    // Filter the workouts based on selected gym, user, and workout plan
     final filteredWorkouts = _filterWorkouts(widget.workoutsForExercise);
 
     return GestureDetector(
       onLongPress: _isExpanded ? null : () => _confirmDeleteExercise(context),
       child: Opacity(
-        opacity: _shouldDimContainer(filteredWorkouts) ? 0.6 : 1.0,
+        opacity: _shouldDimContainer(filteredWorkouts) ? 0.7 : 1.0,
         child: Container(
           decoration: BoxDecoration(
             color: colorProvider.secondary,
             borderRadius: BorderRadius.circular(16),
           ),
-          margin: EdgeInsets.fromLTRB(
-              8, widget.isFirst ? 16 : 8, 8, bottomMargin.toDouble()),
+          margin: EdgeInsets.fromLTRB(6, widget.isFirst ? 12 : 6, 6, 6),
           child: AnimatedSize(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -150,7 +144,6 @@ class _ExerciseExpansionState extends State<ExerciseExpansion> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 initiallyExpanded: _isExpanded,
                 onExpansionChanged: (expanded) {
-                  // Update the expansion state dynamically when the tile is expanded or collapsed
                   setState(() {
                     _isExpanded = expanded;
                   });
@@ -163,128 +156,85 @@ class _ExerciseExpansionState extends State<ExerciseExpansion> {
                       child: Row(
                         children: [
                           Expanded(
-                            child: GestureDetector(
-                              onTap: () async {
-                                final t = AppLocalizations.of(context)!;
-                                final newName =
-                                    await TextInputDialog.showTextInputDialog(
-                                  context: context,
-                                  title: t.exerciseExpansion_changeNameTitle,
-                                  labelText: t.exerciseExpansion_enterNewName,
-                                  initialText: exercise?.exerciseName ?? '',
-                                );
-
-                                if (newName != null && newName.isNotEmpty) {
-                                  setState(() {
-                                    exercise?.exerciseName = newName;
-                                  });
-                                }
-                              },
-                              child: Text(
-                                (exercise?.exerciseName ??
-                                        t.exerciseExpansion_unknownExercise)
-                                    .toUpperCase(),
-                                overflow: TextOverflow.fade,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: colorProvider.accent,
-                                ),
+                            child: Text(
+                              exercise?.exerciseName ??
+                                  t.exerciseExpansion_unknownExercise,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: colorProvider.accent,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: GestureDetector(
-                        onTap: () => _showIconSelection(context),
+                    if (iconPath.isNotEmpty)
+                      Flexible(
+                        flex: 1,
                         child: Container(
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             color: colorProvider.accent.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child:
                               buildExerciseIcon(iconPath, colorProvider.accent),
                         ),
                       ),
-                    ),
                   ],
                 ),
-                children: [
-                  ...filteredWorkouts.mapIndexed((index, workout) {
-                    final user = UserBox.getUserByID(workout.userID);
-                    final gym = GymBox.getGym(workout.gymID);
-                    final bool isWorkoutLast = index == filteredWorkouts.length - 1;
+                children: filteredWorkouts.isEmpty
+                    ? [
+                        //Gdy nie ma zadnych wpisów
+                        NoTrainingSection(accentColor: colorProvider.accent),
+                      ]
+                    : [
+                        ...filteredWorkouts.mapIndexed((index, workout) {
+                          final user = UserBox.getUserByID(workout.userID);
+                          final gym = GymBox.getGym(workout.gymID);
 
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: colorProvider.accent.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      margin: EdgeInsets.fromLTRB(16, index == 0 ? 0 : 8, 16, 8),
-                      padding: const EdgeInsets.all(4.0),
-                      child: ResultsExpansion(
-                        workoutID: workout.workoutID,
-                        quickValue: workout.quickValue,
-                        userName: user?.username ?? t.exerciseExpansion_unknownUser,
-                        gymName: gym?.name ?? t.exerciseExpansion_unknownGym,
-                        iconPath: iconPath,
-                        initiallyExpanded: false,
-                        lastNoteDate:
-                        WorkoutBox.getLatestNoteDate(workout.workoutID),
-                        children: [
-                          Divider(
-                            color: colorProvider.accent.withOpacity(0.3),
-                            endIndent: 4,
-                            indent: 4,
-                            thickness: 2,
-                          ),
-                          GlobalNote(
-                            globalNote: workout.globalNote,
-                            workoutID: workout.workoutID,
-                          ),
-                          Notes(
-                            workoutID: workout.workoutID,
-                            notes: workout.notes,
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-                      child: Container(
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          color: colorProvider.accent.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: GestureDetector(
-                          onTap: () => _openAddDrawer(context),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                t.exerciseExpansion_addUserGym,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: colorProvider.accent,
-                                ),
-                              ),
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: colorProvider.accent.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                            margin: EdgeInsets.fromLTRB(
+                                10, index == 0 ? 0 : 8, 10, 8),
+                            child: ResultsExpansion(
+                              workoutID: workout.workoutID,
+                              quickValue: workout.quickValue,
+                              userName: user?.username ??
+                                  t.exerciseExpansion_unknownUser,
+                              gymName:
+                                  gym?.name ?? t.exerciseExpansion_unknownGym,
+                              initiallyExpanded: false,
+                              lastNoteDate: WorkoutBox.getLatestNoteDate(
+                                  workout.workoutID),
+                              children: [
+                                Divider(
+                                  color: colorProvider.accent.withOpacity(0.3),
+                                  endIndent: 4,
+                                  indent: 4,
+                                  thickness: 2,
+                                ),
+                                GlobalNote(
+                                  globalNote: workout.globalNote,
+                                  workoutID: workout.workoutID,
+                                ),
+                                Notes(
+                                  workoutID: workout.workoutID,
+                                  notes: workout.notes,
+                                ),
+                                const SizedBox(height: 10),
+                              ],
+                            ),
+                          );
+                        }),
+                      ],
               ),
             ),
           ),
@@ -307,23 +257,14 @@ class _ExerciseExpansionState extends State<ExerciseExpansion> {
   }
 
   Widget buildExerciseIcon(String iconPath, Color accentColor) {
-    if (iconPath.isEmpty) {
-      return SizedBox(
-        width: 36,
-        height: 36,
-        child: Icon(
-          Icons.edit_outlined,
-          size: 24,
-          color: accentColor,
-        ),
-      );
-    } else {
-      return Image.asset(
-        iconPath,
-        width: 36,
-        height: 36,
-        color: accentColor,
-      );
-    }
+    return Image.asset(
+      iconPath,
+      width: 36,
+      height: 36,
+      color: accentColor,
+      errorBuilder: (context, error, stackTrace) {
+        return const SizedBox.shrink();
+      },
+    );
   }
 }

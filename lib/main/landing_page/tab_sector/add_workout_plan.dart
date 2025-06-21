@@ -5,7 +5,6 @@ import '../../../data/data_tab_sector/list_exercise_db.dart';
 import '../../../data/data_tab_sector/exercise_db.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../provider/color_provider.dart';
-import '../../../util/button_icon.dart';
 import '../../../util/dialog/delete_confirmation_dialog.dart';
 import '../../../util/input_form_field/input_decorations.dart';
 import '../../../util/snackbar_helper.dart';
@@ -44,12 +43,14 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
     String planName = _nameController.text.trim();
 
     if (planName.isEmpty) {
-      SnackbarHelper.showSnackbar(context, AppLocalizations.of(context)!.addWorkoutPlan_missingName);
+      SnackbarHelper.showSnackbar(
+          context, AppLocalizations.of(context)!.addWorkoutPlan_missingName);
       return;
     }
 
     if (_selectedExercises.isEmpty) {
-      SnackbarHelper.showSnackbar(context, AppLocalizations.of(context)!.addWorkoutPlan_missingExercises);
+      SnackbarHelper.showSnackbar(context,
+          AppLocalizations.of(context)!.addWorkoutPlan_missingExercises);
       return;
     }
 
@@ -73,7 +74,6 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
     Navigator.pop(context);
   }
 
-
   void _confirmDeleteDialog() async {
     final bool? shouldDelete = await DeleteConfirmationDialog.show(context);
     if (shouldDelete == true) {
@@ -83,7 +83,7 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
             (plan) => plan.exerciseListName == widget.initialPlanName);
 
         ListExerciseBox.deleteExerciseListByID(existingPlan.listExerciseID);
-            }
+      }
       Navigator.pop(context);
     }
   }
@@ -91,7 +91,6 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
   void _showAddExerciseDialog() async {
     await AddExerciseDialog.showExerciseInputDialog(context);
     _loadExercises();
-    setState(() {});
   }
 
   @override
@@ -108,16 +107,6 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
       backgroundColor: colorProvider.primary,
       appBar: CustomAppBar(
         title: t.addWorkoutPlan_title,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: _confirmDeleteDialog,
-          ),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _showAddExerciseDialog,
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -134,7 +123,9 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 4,),
+                    const SizedBox(
+                      height: 4,
+                    ),
                     TextField(
                       controller: _nameController,
                       decoration: CustomInputDecorations.buildInputDecoration(
@@ -155,15 +146,27 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
                     ),
                     const SizedBox(height: 8.0),
                     _selectedExercises.isNotEmpty
-                        ? Column(
-                            children: _selectedExercises.map((exerciseId) {
+                        ? ReorderableListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: _selectedExercises.length,
+                            buildDefaultDragHandles: false,
+                            proxyDecorator: (child, index, animation) {
+                              return Material(
+                                color: colorProvider.accent.withOpacity(0.2),
+                                child: child,
+                              );
+                            },
+                            itemBuilder: (context, index) {
+                              final exerciseId = _selectedExercises[index];
                               final exercise = _allExercises.firstWhere(
                                   (e) => e.exerciseID == exerciseId);
+
                               return GestureDetector(
+                                key: ValueKey(exercise.exerciseID),
                                 onTap: () {
                                   setState(() {
-                                    _selectedExercises
-                                        .remove(exercise.exerciseID);
+                                    _selectedExercises.removeAt(index);
                                   });
                                 },
                                 child: Container(
@@ -175,43 +178,64 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
                                   margin: const EdgeInsets.only(bottom: 8.0),
                                   child: ListTile(
                                     leading: Image.asset(
-                                    exercise.iconPath,
-                                    width: 38,
-                                    height: 38,
-                                    color: colorProvider.accent,
-                                    errorBuilder: (context, error, stackTrace) => Image.asset(
-                                      'assets/icons/logo_bl.png',
-                                      width: 38,
-                                      height: 38,
+                                      exercise.iconPath,
+                                      width: 26,
+                                      height: 26,
                                       color: colorProvider.accent,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Image.asset(
+                                        'assets/icons/logo_bl.png',
+                                        width: 26,
+                                        height: 26,
+                                        color: colorProvider.accent,
+                                      ),
                                     ),
-                                  ),
                                     title: Text(
                                       exercise.exerciseName,
                                       style: TextStyle(
                                           color: colorProvider.accent),
                                     ),
-                                    trailing: IconButton(
-                                      icon: Icon(Icons.remove_circle,
-                                          color: colorProvider.accent),
-                                      onPressed: () {
-                                        setState(() {
-                                          _selectedExercises
-                                              .remove(exercise.exerciseID);
-                                        });
-                                      },
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(Icons.remove_circle,
+                                              color: colorProvider.accent),
+                                          onPressed: () {
+                                            setState(() {
+                                              _selectedExercises
+                                                  .removeAt(index);
+                                            });
+                                          },
+                                        ),
+                                        ReorderableDragStartListener(
+                                          index: index,
+                                          child: Icon(Icons.menu,
+                                              color: colorProvider.accent),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               );
-                            }).toList(),
+                            },
+                            onReorder: (oldIndex, newIndex) {
+                              setState(() {
+                                if (newIndex > oldIndex) newIndex -= 1;
+                                final item =
+                                    _selectedExercises.removeAt(oldIndex);
+                                _selectedExercises.insert(newIndex, item);
+                              });
+                            },
                           )
                         : Center(
-                          child: Text(
+                            child: Text(
                               t.addWorkoutPlan_noExercises,
-                              style: TextStyle(color: colorProvider.accent.withOpacity(0.7)),
+                              style: TextStyle(
+                                  color: colorProvider.accent.withOpacity(0.7)),
                             ),
-                        ),
+                          ),
                     Divider(
                       color: colorProvider.accent.withOpacity(0.5),
                       thickness: 1.0,
@@ -229,14 +253,15 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
                     ),
                     const SizedBox(height: 8.0),
                     // List of Exercises with Icons
-                    availableExercises.isNotEmpty
-                        ? ListView.builder(
+                    Column(
+                      children: [
+                        if (availableExercises.isNotEmpty)
+                          ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: availableExercises.length,
                             itemBuilder: (context, index) {
                               final exercise = availableExercises[index];
-
                               return GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -263,12 +288,13 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
                                       width: 38,
                                       height: 38,
                                       color: colorProvider.accent,
-                                      errorBuilder: (context, error, stackTrace) => Image.asset(
-                                        'assets/icons/logo_bl.png',
-                                        width: 38,
-                                        height: 38,
-                                        color: colorProvider.accent,
-                                      ),
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Image.asset(
+                                                  'assets/icons/logo_bl.png',
+                                                  width: 38,
+                                                  height: 38,
+                                                  color: colorProvider.accent),
                                     ),
                                     title: Text(
                                       exercise.exerciseName,
@@ -286,17 +312,27 @@ class _AddWorkoutPlanState extends State<AddWorkoutPlan> {
                                 ),
                               );
                             },
-                          )
-                        : Center(
-                            child: ButtonIcon(
-                              onPressed: _showAddExerciseDialog,
-                              showBorder: true,
-                              iconData: Icons.add_circle,
-                              labelText: t.addWorkoutPlan_addNewExercise,
-                              backgroundColor: colorProvider.secondary,
-                              textColor: colorProvider.accent.withOpacity(0.7),
+                          ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: _showAddExerciseDialog,
+                            icon: const Icon(Icons.add),
+                            label: Text(t.addWorkoutPlan_addNewExercise),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor:
+                                  colorProvider.accent.withValues(alpha: 0.1),
+                              foregroundColor: colorProvider.accent,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
                           ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

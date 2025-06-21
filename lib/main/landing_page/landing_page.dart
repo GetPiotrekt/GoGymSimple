@@ -1,14 +1,18 @@
+import 'dart:ui';
+
+import 'package:GoGymSimple/main/drawer/tools/time/timer_floating_button.dart';
+import 'package:GoGymSimple/provider/workout_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+
 import '../../provider/color_provider.dart';
+import '../../provider/landing_page_provider.dart';
 import '../../provider/selected_options_provider.dart';
-import '../../provider/time_provider.dart';
-import '../../provider/settings_provider.dart'; // Dodajemy import
 import '../drawer/drawer.dart';
-import '../drawer/tools/time/stopwatch.dart';
+import '../workout_screen/workout_screen.dart';
 import 'exercise_view/exercise_view.dart';
 import 'history_view/history_view.dart';
-import 'search_drawer.dart';
 import 'tab_sector/tab_sector.dart';
 
 class LandingPage extends StatefulWidget {
@@ -18,14 +22,59 @@ class LandingPage extends StatefulWidget {
   _LandingPageState createState() => _LandingPageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
-  final SearchDrawer _searchDrawer = SearchDrawer();
+class _LandingPageState extends State<LandingPage>  with SingleTickerProviderStateMixin {
+  final GlobalKey _workoutButtonKey = GlobalKey();
+
+  TutorialCoachMark? tutorialCoachMark;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final landingPageProvider = context.watch<LandingPageProvider>();
+
+    if (landingPageProvider.isIconPressed) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showTutorial();
+
+        // Zresetuj flagę po pokazaniu tutoriala
+        context.read<LandingPageProvider>().isIconPressed == false;
+      });
+    }
+  }
+
+  void showTutorial() {
+    tutorialCoachMark = TutorialCoachMark(
+      targets: _createTargets(),
+      colorShadow: Colors.black54,
+      paddingFocus: 25,
+      opacityShadow: 0.8,
+      hideSkip: true,
+      onClickTarget: (target) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const WorkoutScreen()),
+        );
+      },
+    )..show(context: context);
+  }
+
+  List<TargetFocus> _createTargets() {
+    return [
+      TargetFocus(
+        identify: "workout_button",
+        keyTarget: _workoutButtonKey,
+        paddingFocus: 25,
+        contents: [],
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     final colorProvider = context.watch<ColorProvider>();
     final selectedOptions = context.watch<SelectedOptionsProvider>();
-    final settingsProvider = context.watch<SettingsProvider>();
+    final workoutProvider = context.watch<WorkoutProvider>();
 
     return Scaffold(
       backgroundColor: colorProvider.primary,
@@ -33,6 +82,8 @@ class _LandingPageState extends State<LandingPage> {
         backgroundColor: colorProvider.secondary,
         foregroundColor: colorProvider.accent,
         centerTitle: true,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
         title: Text(
           'GoGymSimple',
           style: TextStyle(
@@ -43,27 +94,27 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ),
         actions: [
-          IconButton(
-            icon: selectedOptions.searchQuery.isEmpty
-                ? Icon(Icons.search, color: colorProvider.accent)
-                : Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: colorProvider.accent.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WorkoutScreen()),
+                );
+              },
+              child: Icon(
+                key: _workoutButtonKey,
+                workoutProvider.isStarted ? Icons.pause : Icons.play_arrow,
+                size: 24,
                 color: colorProvider.accent,
               ),
-              padding: const EdgeInsets.all(6),
-              child: Icon(
-                Icons.clear,
-                color: colorProvider.primary,
-              ),
             ),
-            onPressed: () {
-              if (selectedOptions.searchQuery.isEmpty) {
-               _searchDrawer.open(context); // Otwieramy szufladę wyszukiwania
-              } else {
-                selectedOptions.setSearchQuery(''); // Czyścimy zapytanie wyszukiwania
-              }
-            },
           ),
         ],
       ),
@@ -71,92 +122,23 @@ class _LandingPageState extends State<LandingPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TabSector(colorProvider: colorProvider),
-          Container(height: 1, color: colorProvider.accent.withOpacity(0.7)),
+          TabSector(
+            colorProvider: colorProvider,
+          ),
+          Container(
+            height: 1,
+            color: colorProvider.secondary,
+            child: Container(height: 1, color: colorProvider.accent.withOpacity(0.4)),
+          ),
           Expanded(
             child: selectedOptions.viewMode == 'List'
-                ? const ExerciseView() // Pokazuje ExerciseView, gdy tryb to 'List'
-                : const HistoryView(), // W przeciwnym razie pokazuje HistoryView
+                ? const ExerciseView()
+                : const HistoryView(),
           ),
         ],
       ),
-      floatingActionButton: (settingsProvider.getElementVisibility &&
-          MediaQuery.of(context).viewInsets.bottom == 0)
-          ? Builder(
-        builder: (context) {
-          final timeProvider = context.watch<TimeProvider>();
-          final colorProvider = context.watch<ColorProvider>();
-
-          return GestureDetector(
-            onLongPress: () {
-              timeProvider.reset(); // reset po przytrzymaniu
-            },
-            child: FloatingActionButton.extended(
-              elevation: 3,
-              backgroundColor: colorProvider.secondary,
-              foregroundColor: colorProvider.accent,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const StopwatchScreen()),
-                );
-              },
-              label: Row(
-                children: [
-                  const Icon(Icons.timer_outlined, size: 30),
-                  const SizedBox(width: 8),
-                  Text(
-                    timeProvider.formattedElapsed,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(width: 12),
-                  GestureDetector(
-                    onTap: () {
-                      if (timeProvider.isRunning) {
-                        timeProvider.stop();
-                      } else {
-                        timeProvider.start();
-                      }
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 4),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: colorProvider.accent, width: 1.5),
-                      ),
-                      child: Icon(
-                        timeProvider.isRunning ? Icons.pause : Icons.play_arrow,
-                        size: 18,
-                        color: colorProvider.accent,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      timeProvider.reset();
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 8),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: colorProvider.accent, width: 1.5),
-                      ),
-                      child: Icon(
-                        Icons.replay,
-                        size: 18,
-                        color: colorProvider.accent,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      )
-          : null,
+      floatingActionButton: const TimerFloatingButton(),
     );
   }
 }
+

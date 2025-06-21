@@ -27,15 +27,13 @@ android {
     }
 
     dependencies {
-        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "piotr.wisnia.go_gym_simple"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdkVersion 34
+        minSdkVersion 23
+        compileSdkVersion = 35
         targetSdkVersion 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -49,7 +47,12 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"      // << DEBUG: osobne ID
+            debuggable true                   // << DEBUG: jawne debugowanie
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -57,7 +60,6 @@ android {
         }
     }
 }
-
 flutter {
     source = "../.."
 }

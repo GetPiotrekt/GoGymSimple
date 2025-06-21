@@ -53,21 +53,24 @@ class NotesEditor extends StatelessWidget {
               ),
               Divider(height: 0, color: colorProvider.accent.withOpacity(0.5),),
               Center(
-                child: TextButton(
+                child: TextButton.icon(
                   onPressed: onPickDate,
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.centerLeft,
-                    foregroundColor: colorProvider.accent,
-                  ),
-                  child: Text(
+                  icon: Icon(Icons.calendar_today, size: 18, color: colorProvider.accent),
+                  label: Text(
                     DateFormat("d MMM yyyy", Localizations.localeOf(context).toString())
                         .format(selectedDate),
-                    style: TextStyle(color: colorProvider.accent),
+                    style: TextStyle(
+                      color: colorProvider.accent,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.center,
+                    foregroundColor: colorProvider.accent,
                   ),
                 ),
               ),
-
             ],
           ),
         ),

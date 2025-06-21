@@ -20,6 +20,7 @@ class InputFormField extends StatelessWidget {
   final TextAlignVertical textAlignVertical;
   final FocusNode? focusNode;
   final bool enabled;
+  final int? maxLength;
 
   const InputFormField({
     super.key,
@@ -36,6 +37,7 @@ class InputFormField extends StatelessWidget {
     this.textAlignVertical = TextAlignVertical.center,
     this.focusNode,
     this.enabled = true,
+    this.maxLength,
   });
 
   @override
@@ -44,6 +46,9 @@ class InputFormField extends StatelessWidget {
     final t = AppLocalizations.of(context)!;
 
     return TextField(
+      maxLength: maxLength,
+      maxLines: null,
+      minLines: 1,
       textCapitalization: TextCapitalization.sentences,
       controller: controller,
       keyboardType: keyboardType,
@@ -68,10 +73,12 @@ class InputFormField extends StatelessWidget {
       enabled: enabled,
       onTap: enabled
           ? () {
-        controller.selection = TextSelection(
-          baseOffset: 0,
-          extentOffset: controller.text.length,
-        );
+        if (controller.text.isEmpty) {
+          controller.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: controller.text.length,
+          );
+        }
       }
           : null,
       onChanged: enabled
@@ -140,6 +147,12 @@ class InputFormField extends StatelessWidget {
     if (keyboardType == const TextInputType.numberWithOptions(decimal: false)) {
       controller.text = value.round().toString();
     }
+
+    // Schowaj klawiaturę
+    FocusScope.of(context).unfocus();
+
+    // Usuń zaznaczenie (pozostaw tylko kursor na końcu)
+    controller.selection = TextSelection.collapsed(offset: controller.text.length);
 
     return true;
   }

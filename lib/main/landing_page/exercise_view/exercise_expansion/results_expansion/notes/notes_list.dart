@@ -35,7 +35,10 @@ class _NotesListState extends State<NotesList> {
       return _buildEmptyNoteBox(t, colorProvider);
     }
 
-    final notesToDisplay = showAll ? widget.notes : widget.notes.take(2).toList();
+    final sortedNotes = [...widget.notes]
+      ..sort((a, b) => DateTime.parse(b['date']).compareTo(DateTime.parse(a['date'])));
+
+    final notesToDisplay = showAll ? sortedNotes : sortedNotes.take(2).toList();
 
     return Column(
       children: [
@@ -46,8 +49,8 @@ class _NotesListState extends State<NotesList> {
             _buildNoteItem(context, colorProvider, note, index),
           ];
 
-          if (index == 1 && widget.notes.length > 2) {
-            final remaining = widget.notes.length - 2;
+          if (index == 1 && sortedNotes.length > 2) {
+            final remaining = sortedNotes.length - 2;
             final buttonText = showAll
                 ? t.notes_showLess
                 : "${t.notes_showMore} ($remaining)";
@@ -67,18 +70,6 @@ class _NotesListState extends State<NotesList> {
 
           return widgets;
         }),
-
-        if (widget.notes.length > 2 &&
-            widget.notes.length == 1 && !showAll)
-          TextButton(
-            onPressed: () {
-              setState(() => showAll = !showAll);
-            },
-            child: Text(
-              "${t.notes_showMore} (${widget.notes.length - 1})",
-              style: TextStyle(color: colorProvider.accent),
-            ),
-          ),
       ],
     );
   }
@@ -209,5 +200,4 @@ class _NotesListState extends State<NotesList> {
       },
     );
   }
-
 }

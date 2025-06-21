@@ -6,20 +6,20 @@ import '../../provider/color_provider.dart';
 Future<DateTime?> showCustomDatePicker(
     BuildContext context,
     DateTime initialDate, {
-      bool selectPastDates = false,
+      bool selectPastDates = true, // <- domyślnie ustawiamy na true
     }) async {
   final colorProvider = Provider.of<ColorProvider>(context, listen: false);
 
   // Pobierz aktualny język aplikacji
   final locale = Localizations.localeOf(context);
 
-  // Zakres dostępnych dat
-  DateTime firstDate = selectPastDates ? DateTime(2000) : DateTime.now();
-  DateTime lastDate = selectPastDates ? DateTime.now() : DateTime(DateTime.now().year + 100);
+  // Zakres dostępnych dat – domyślnie tylko przeszłość
+  DateTime firstDate = DateTime(2000);
+  DateTime lastDate = DateTime.now();
 
   return await showDatePicker(
     context: context,
-    initialDate: initialDate,
+    initialDate: initialDate.isAfter(lastDate) ? lastDate : initialDate,
     firstDate: firstDate,
     lastDate: lastDate,
     locale: locale,
@@ -58,3 +58,4 @@ Future<DateTime?> showCustomDatePicker(
     },
   );
 }
+

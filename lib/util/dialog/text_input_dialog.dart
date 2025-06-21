@@ -11,6 +11,8 @@ class TextInputDialog {
     required String labelText,
     String? initialText,
     TextInputType inputType = TextInputType.text,
+    Widget? extraWidget,
+    int? maxLength,
   }) async {
     final TextEditingController controller = TextEditingController(text: initialText);
     final colorProvider = Provider.of<ColorProvider>(context, listen: false);
@@ -32,19 +34,24 @@ class TextInputDialog {
               children: [
                 Text(
                   title,
-                  style: TextStyle(color: colorProvider.accent, fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(color: colorProvider.accent, fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
                 InputFormField(
                   labelText: labelText,
                   controller: controller,
                   keyboardType: inputType,
+                  maxLength: maxLength,
                   onSubmitted: (value) {
                     if (value.isNotEmpty) {
                       Navigator.pop(context, value);
                     }
-                  }, // Zatwierdzanie przez Enter
+                  },
                 ),
+                if (extraWidget != null) ...[
+                  const SizedBox(height: 12),
+                  extraWidget, // 👉 wstawiamy widget jeśli jest
+                ],
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

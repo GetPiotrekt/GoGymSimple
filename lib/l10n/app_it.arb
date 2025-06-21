@@ -128,6 +128,7 @@
   "plateDialog_close": "Chiudi",
   "plateDialog_invalidWeight": "Il peso deve superare quello del bilanciere",
   "plateDialog_invalidTargetWeight": "Peso target troppo basso",
+  "plateDialog_noCombinationFound": "Nessuna combinazione valida di dischi per il peso selezionato",
 
   "measurementTile_noData": "Nessun dato. Premi il pulsante 'Misura' per aggiungere un valore.",
   "measurementTile_addData": "Misura",
@@ -151,6 +152,7 @@
   "measurementTracker_invalid_value": "Valore non valido!",
   "measurementTracker_invalid_category": "Categoria selezionata non valida!",
   "measurementTracker_add_category_hint": "Puoi aggiungere una nuova categoria utilizzando il pulsante sottostante.",
+  "measurementTracker_measurementDate": "Data della misurazione",
 
   "weightTracker_title": "Monitoraggio Peso",
   "weightTracker_enterWeightKg": "Inserisci peso (kg)",
@@ -159,6 +161,7 @@
   "weightTracker_updateWeight": "Aggiorna peso",
   "weightTracker_yourWeight": "Il tuo peso",
   "weightTracker_daysAgo": " ({daysAgo} giorni fa)",
+  "weightTracker_legendWeightSaved": "Giorni con peso salvato",
 
   "drawer_tools_section": "Strumenti",
   "drawer_calculators_section": "Calcolatrici",
@@ -211,11 +214,17 @@
   "tabBottomDrawer_enterGymName": "Inserisci nome palestra",
   "tabBottomDrawer_enterUserName": "Inserisci nome utente",
   "tabBottomDrawer_enterWorkoutPlanName": "Inserisci nome piano di allenamento",
+  "tabBottomDrawer_editTitle": "Modifica nome",
+  "tabBottomDrawer_editExercise": "Modifica esercizio",
+  "tabBottomDrawer_editLabel": "Inserisci un nuovo nome",
+  "tabBottomDrawer_refreshScreen": "Aggiorna lo schermo per visualizzare le modifiche",
 
   "tabSector_gym": "Palestra",
   "tabSector_user": "Utente",
   "tabSector_exercise": "Esercizio",
   "tabSector_workoutPlan": "Piano di allenamento",
+  "tabSector_filter": "Filtra",
+  "tabSector_userGym": "Utente e Palestra",
 
   "sortSector_aToZ": "A ... Z",
   "sortSector_zToA": "Z ... A",
@@ -256,17 +265,17 @@
   "exerciseExpansion_changeNameTitle": "Cambia nome esercizio",
   "exerciseExpansion_enterNewName": "Nuovo nome esercizio",
 
-  "addUserAndGym_title": "Assegna {exercise} a utente e palestra",
+  "addUserAndGym_title": "Assegna esercizio a utente e palestra",
   "addUserAndGym_selectUser": "Seleziona utente",
   "addUserAndGym_selectGym": "Seleziona palestra",
   "addUserAndGym_confirmSelection": "Conferma selezione",
   "addUserAndGym_workoutExists": "Questo allenamento esiste già per l'utente e la palestra selezionati.",
-  "addUserAndGym_workoutGlobalNote": "Nota globale per l'esercizio {exerciseName}",
+  "addUserAndGym_workoutGlobalNote": "Aggiungi una nota generale per l'esercizio – ad es. impostazioni della macchina, tipo di presa, consigli tecnici, ecc.",
 
   "resultsExpansion_title": "{userName} • {gymName}",
   "resultsExpansion_lastNoteDate": "Ultima nota: {date}",
   "resultsExpansion_quickValue": "Imposta valore rapido",
-  "resultsExpansion_quickValueSet": "Inserisci testo o numero",
+  "resultsExpansion_quickValueSet": "es. obiettivo dell'allenamento o la migliore serie",
   "resultsExpansion_deleteWorkoutConfirmation": "Sei sicuro di voler eliminare questa sezione con tutti i suoi risultati?",
 
   "notes_title": "Appunti allenamento",
@@ -287,7 +296,7 @@
   "globalNote_hint": "Inserisci nota",
 
   "notificationScreen_title": "Notifiche",
-  "notificationScreen_permissionTooltip": "Richiedi permessi per le notifiche",
+  "notificationScreen_permissionTooltip": "Clicca qui per abilitare le notifiche modificabili",
 
   "notificationList_title": "Notifiche salvate:",
   "notificationList_empty": "Nessuna notifica salvata.",
@@ -301,6 +310,9 @@
   "notificationList_type_custom": "Personalizzato",
   "notificationList_confirm_title": "Conferma",
   "notificationList_confirm_content": "Sei sicuro di voler eliminare questa notifica?",
+  "notificationList_deleteAll": "Elimina tutte",
+  "notificationList_confirmAll_title": "Eliminare tutte le notifiche?",
+  "notificationList_confirmAll_content": "Sei sicuro di voler eliminare tutte le notifiche salvate?",
 
   "notificationForm_titleLabel": "Titolo della notifica:",
   "notificationForm_titleHint": "Inserisci il titolo della notifica...",
@@ -308,12 +320,12 @@
   "notificationForm_messageHint": "Inserisci il contenuto della notifica...",
   "notificationForm_addNotification": "Aggiungi notifica",
   "notificationForm_added": "Notifica aggiunta!",
-  "notificationForm_typeLabel": "Tipo di promemoria:",
+  "notificationForm_typeLabel": "Promemoria:",
   "notificationForm_typeTraining": "Allenamento",
   "notificationForm_typeWeight": "Misurazione peso",
   "notificationForm_typeMeasurement": "Misurazione corpo",
   "notificationForm_typeCustom": "Personalizzato",
-  "notificationForm_modeLabel": "Modalità notifica:",
+  "notificationForm_modeLabel": "Programma:",
   "notificationForm_modeDaily": "Ogni giorno",
   "notificationForm_modeInterval": "Ogni X giorni",
   "notificationForm_modeWeekly": "Giorni della settimana selezionati",
@@ -332,6 +344,7 @@
   "notificationForm_defaultMessageWeight": "Promemoria per la pesatura. Registra il risultato nell'app.",
   "notificationForm_defaultTitleMeasurement": "Fai le misurazioni",
   "notificationForm_defaultMessageMeasurement": "È ora di misurare il corpo. Monitora i tuoi progressi!",
+  "notificationForm_testNotification": "Testa notifica",
 
   "timePicker_label": "Ora",
 
@@ -339,6 +352,7 @@
   "watchAds_description": "Guarda un breve video pubblicitario per supportarci senza spendere soldi",
   "watchAds_button": "Guarda pubblicità",
   "watchAds_counter": "Pubblicità viste:",
+  "watchAds_error": "Grazie per il tuo supporto! Sfortunatamente, l'annuncio non è stato caricato",
 
   "shareApp_title": "Condividi l'app",
   "shareApp_inviteTitle": "Condividi l'app con amici e famiglia!",
@@ -346,6 +360,9 @@
   "shareApp_shareButton": "Condividi tramite...",
   "shareApp_linkCopied": "Link copiato negli appunti",
   "shareApp_shareText": "Dai un'occhiata a questa app:",
+  "shareApp_ratingTitle": "Ti piace GoGymSimple?",
+  "shareApp_ratingSubtitle": "Ti andrebbe di valutare GoGymSimple? La tua opinione aiuta altri a scoprire l’app.",
+  "shareApp_ratingYes": "Certo!",
 
   "donate_title": "Sostienici",
 
@@ -358,6 +375,7 @@
   "donateSections_oneTimeDesc": "Effettua una donazione una tantum dell'importo scelto",
   "donateSections_oneTimeButton": "Dona ora",
   "donateSections_voluntaryTitle": "100% Volontario",
+  "donateSections_storeUnavailableMessage": "Negozio non disponibile. Controlla la connessione a Internet",
   "donateSections_voluntaryDesc": "Ricorda che tutte le donazioni sono completamente volontarie. Non riceverai funzionalità o contenuti speciali, solo la nostra sincera gratitudine per il supporto al progetto.",
 
   "welcomeExerciseStep_favoriteExercises": "Esercizi preferiti",
@@ -401,5 +419,41 @@
 
   "welcomeEnd_welcome": "Benvenuto su GoGymSimple",
 
-  "stopwatch_title": "Cronometro"
+  "stopwatch_title": "Cronometro",
+
+  "workoutScreen_title": "Allenamento",
+  "workoutScreen_gym": "Seleziona palestra",
+  "workoutScreen_gymAndDate": "Seleziona palestra e data",
+  "workoutScreen_selectGymFirst": "Seleziona prima una palestra",
+  "workoutScreen_noGymSelected": "Nessuna palestra selezionata",
+  "workoutScreen_saved": "Allenamento salvato!",
+  "workoutScreen_participants": "Partecipanti",
+  "workoutScreen_plans": "Piani",
+  "workoutScreen_exercises": "Esercizi",
+  "workoutScreen_addExercise": "Aggiungi esercizio",
+  "workoutScreen_addNote": "Aggiungi nota",
+  "workoutScreen_saveNote": "Salva nota",
+  "workoutScreen_savedNote": "Salvato",
+  "workoutScreen_showMoreInfo": "Mostra più informazioni",
+  "workoutScreen_firstTime": "Prima volta",
+
+  "restoreSession_title": "Allenamento interrotto",
+  "restoreSession_info": "La tua sessione di allenamento precedente è stata interrotta.",
+  "restoreSession_content": "Vuoi ripristinare i tuoi progressi?",
+  "restoreSession_confirm": "Sì, ripristina",
+  "restoreSession_deny": "Inizia da capo",
+
+  "saveWorkoutDialog_save_workout_title": "Vuoi salvare l’allenamento?",
+  "saveWorkoutDialog_save_workout_subtitle": "Salva questo allenamento per tornare più tardi",
+  "saveWorkoutDialog_save_workout_button": "Salva allenamento",
+  "saveWorkoutDialog_dont_save_workout_button": "Non ora",
+  "saveWorkoutDialog_support_us_title": "Supportaci",
+  "saveWorkoutDialog_support_us_subtitle": "Guarda un breve annuncio per supportare l'app!",
+
+  "editDeleteBottomSheet_edit": "Modifica",
+  "editDeleteBottomSheet_delete": "Elimina",
+
+  "noTrainingSection_noSaved": "Nessun allenamento salvato per questo esercizio",
+  "noTrainingSection_startNew": "Per iniziare un nuovo allenamento e salvare i risultati, clicca il pulsante:",
+  "noTrainingSection_addPrevious": "Puoi anche usare questo pulsante per aggiungere allenamenti precedenti"
 }

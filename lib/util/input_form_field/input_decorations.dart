@@ -20,7 +20,7 @@ class CustomInputDecorations {
       counterStyle: TextStyle(color: colorProvider.accent),
       filled: true,
       fillColor:
-          Theme.of(context).inputDecorationTheme.fillColor ?? Colors.black12,
+          colorProvider.accent.withValues(alpha: 0.05),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),

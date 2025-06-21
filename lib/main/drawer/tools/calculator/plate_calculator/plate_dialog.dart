@@ -50,6 +50,11 @@ class PlateDialog {
 
     allCombinations = _filterPlateCombinations(allCombinations);
 
+    if (allCombinations.isEmpty) {
+      SnackbarHelper.showSnackbar(context, t.plateDialog_noCombinationFound);
+      return;
+    }
+
     _showRequiredPlatesDialog(context, allCombinations, t, unitLabel);
   }
 
@@ -154,9 +159,8 @@ class PlateDialog {
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                   decoration: BoxDecoration(
-                    color: colorProvider.secondary.withOpacity(0.2),
+                    color: colorProvider.accent.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: colorProvider.accent.withOpacity(0.8)),
                   ),
                   child: Text(
                     plateText,
@@ -186,7 +190,9 @@ class PlateDialog {
                     ),
                   ),
                   Divider(
-                    color: colorProvider.accent.withOpacity(0.7),
+                    color: colorProvider.accent.withOpacity(0.5),
+                    endIndent: 16,
+                    indent: 8,
                     thickness: 1,
                     height: 0,
                   ),

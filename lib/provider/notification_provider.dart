@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/notification_db.dart';
+import '../data/notification/notification_db.dart';
 
 class NotificationProvider with ChangeNotifier {
   // Global settings

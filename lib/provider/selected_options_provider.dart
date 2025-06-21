@@ -160,4 +160,31 @@ class SelectedOptionsProvider with ChangeNotifier {
         return [];
     }
   }
+
+  List<int> _getSelectedListByCategory(String category) {
+    switch (category) {
+      case 'Gym':
+        return selectedOptionsGym;
+      case 'User':
+        return selectedOptionsUser;
+      case 'Workout plan':
+        return selectedOptionsWorkoutPlan;
+      case 'Exercise':
+        return selectedOptionsExercise;
+      default:
+        return [];
+    }
+  }
+
+  void setOptionChecked(String category, int id, bool isSelected) {
+    final list = _getSelectedListByCategory(category);
+    if (isSelected) {
+      if (!list.contains(id)) {
+        list.add(id);
+      }
+    } else {
+      list.remove(id);
+    }
+    notifyListeners();
+  }
 }

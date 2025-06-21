@@ -22,7 +22,7 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
   final TextEditingController _heightFeetController = TextEditingController();
   final TextEditingController _heightInchesController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
-  String? _gender;
+  late String _gender = 'male';
   double _bmr = 0;
   final Map<String, double> bmrByActivity = {};
   bool _isPounds = false;
@@ -31,14 +31,16 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
   void initState() {
     super.initState();
 
-    final units = Provider.of<SettingsProvider>(context, listen: false).getUnits;
+    final units =
+        Provider.of<SettingsProvider>(context, listen: false).getUnits;
     _isPounds = units == 'imperial';
   }
 
   void _toggleUnits() {
     setState(() {
       _isPounds = !_isPounds;
-      Provider.of<SettingsProvider>(context, listen: false).changeUnits(_isPounds ? 'imperial' : 'metric');
+      Provider.of<SettingsProvider>(context, listen: false)
+          .changeUnits(_isPounds ? 'imperial' : 'metric');
 
       double? weight = double.tryParse(_weightController.text);
       if (weight != null) {
@@ -53,10 +55,12 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
       if (heightFeet != null && heightInches != null) {
         if (_isPounds) {
           _heightFeetController.text = (heightFeet * 0.3048).toStringAsFixed(1);
-          _heightInchesController.text = (heightInches * 2.54).toStringAsFixed(1);
+          _heightInchesController.text =
+              (heightInches * 2.54).toStringAsFixed(1);
         } else {
           _heightFeetController.text = (heightFeet / 0.3048).toStringAsFixed(1);
-          _heightInchesController.text = (heightInches / 2.54).toStringAsFixed(1);
+          _heightInchesController.text =
+              (heightInches / 2.54).toStringAsFixed(1);
         }
       }
     });
@@ -69,7 +73,8 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
     double heightInCm;
     if (_isPounds) {
       double heightInFeet = double.tryParse(_heightFeetController.text) ?? 0;
-      double heightInInches = double.tryParse(_heightInchesController.text) ?? 0;
+      double heightInInches =
+          double.tryParse(_heightInchesController.text) ?? 0;
       heightInCm = (heightInFeet * 30.48) + (heightInInches * 2.54);
     } else {
       heightInCm = double.tryParse(_heightController.text) ?? 0;
@@ -84,7 +89,8 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
       'Bardzo wysoka aktywność',
     ]) {
       final activityFactor = _getActivityFactor(activityLevel);
-      final baseBMR = _calculateBmrFormula(weight, heightInCm, age, activityFactor);
+      final baseBMR =
+          _calculateBmrFormula(weight, heightInCm, age, activityFactor);
       final bmr = baseBMR * activityFactor;
       bmrByActivity[activityLevel] = bmr;
     }
@@ -110,7 +116,8 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
     }
   }
 
-  double _calculateBmrFormula(double weight, double height, int age, double activityFactor) {
+  double _calculateBmrFormula(
+      double weight, double height, int age, double activityFactor) {
     if (_gender == 'male') {
       return (10 * weight) + (6.25 * height) - (5 * age) + 5;
     } else {
@@ -130,7 +137,8 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
 
     bool isFormComplete = _weightController.text.isNotEmpty &&
         (_isPounds
-            ? (_heightFeetController.text.isNotEmpty && _heightInchesController.text.isNotEmpty)
+            ? (_heightFeetController.text.isNotEmpty &&
+                _heightInchesController.text.isNotEmpty)
             : _heightController.text.isNotEmpty) &&
         _ageController.text.isNotEmpty &&
         _gender != null;
@@ -167,7 +175,8 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
               ),
             if (_bmr <= 0)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 150),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 150),
                 decoration: BoxDecoration(
                   color: colorProvider.secondary,
                   borderRadius: BorderRadius.circular(12),
@@ -200,33 +209,11 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
                           onChanged: (_) => setState(() {}),
                         ),
                       ),
-                      const SizedBox(width: 15),
+                      const SizedBox(width: 10),
                       Expanded(
-                        child: _isPounds
-                            ? Row(
-                          children: [
-                            Expanded(
-                              child: InputFormField(
-                                labelText: t.calculatorBmr_height_label_imperial_feet,
-                                controller: _heightFeetController,
-                                keyboardType: TextInputType.number,
-                                onChanged: (_) => setState(() {}),
-                              ),
-                            ),
-                            const SizedBox(width: 15),
-                            Expanded(
-                              child: InputFormField(
-                                labelText: t.calculatorBmr_height_label_imperial_inches,
-                                controller: _heightInchesController,
-                                keyboardType: TextInputType.number,
-                                onChanged: (_) => setState(() {}),
-                              ),
-                            ),
-                          ],
-                        )
-                            : InputFormField(
-                          labelText: t.calculatorBmr_height_label_metric,
-                          controller: _heightController,
+                        child: InputFormField(
+                          labelText: t.calculatorBmr_age_label,
+                          controller: _ageController,
                           keyboardType: TextInputType.number,
                           onChanged: (_) => setState(() {}),
                         ),
@@ -237,44 +224,101 @@ class _CalculatorBMRState extends State<CalculatorBMR> {
                   Row(
                     children: [
                       Expanded(
-                        child: InputFormField(
-                          labelText: t.calculatorBmr_age_label,
-                          controller: _ageController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (_) => setState(() {}),
-                        ),
+                        child: _isPounds
+                            ? Row(
+                                children: [
+                                  Expanded(
+                                    child: InputFormField(
+                                      labelText: t
+                                          .calculatorBmr_height_label_imperial_feet,
+                                      controller: _heightFeetController,
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (_) => setState(() {}),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: InputFormField(
+                                      labelText: t
+                                          .calculatorBmr_height_label_imperial_inches,
+                                      controller: _heightInchesController,
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (_) => setState(() {}),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : InputFormField(
+                                labelText: t.calculatorBmr_height_label_metric,
+                                controller: _heightController,
+                                keyboardType: TextInputType.number,
+                                onChanged: (_) => setState(() {}),
+                              ),
                       ),
-                      const SizedBox(width: 20),
+                      const SizedBox(width: 10),
                       Row(
+                        mainAxisSize: MainAxisSize.min,
+                        // To keep the row compact
                         children: [
                           GestureDetector(
-                            onTap: () => setState(() => _gender = 'male'),
-                            child: Row(
-                              children: [
-                                Icon(Icons.male, color: _radioTextColor('male')),
-                                const SizedBox(width: 5),
-                                Text(t.calculatorBmr_male, style: TextStyle(color: _radioTextColor('male'))),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          GestureDetector(
-                            onTap: () => setState(() => _gender = 'female'),
-                            child: Row(
-                              children: [
-                                Icon(Icons.female, color: _radioTextColor('female')),
-                                const SizedBox(width: 5),
-                                Text(t.calculatorBmr_female, style: TextStyle(color: _radioTextColor('female'))),
-                              ],
+                            onTap: () {
+                              setState(() {
+                                // Toggle the gender
+                                _gender =
+                                    (_gender == 'male') ? 'female' : 'male';
+                              });
+                            },
+                            // You can wrap this in a Card or Container for better visual feedback/styling
+                            child: Container(
+                              width: 100,
+                              height: 60,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              // Padding for the button
+                              decoration: BoxDecoration(
+                                color: colorProvider.accent.withOpacity(0.05),
+                                // Background color for the button
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    // Display icon based on current gender
+                                    _gender == 'male'
+                                        ? Icons.male
+                                        : Icons.female,
+                                    color: colorProvider.accent, // Icon color
+                                    size: 22,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  // Increased space for better visual separation
+                                  Text(
+                                    // Display text based on current gender
+                                    _gender == 'male'
+                                        ? t.calculatorBmr_male
+                                        : t.calculatorBmr_female,
+                                    style: TextStyle(
+                                      color: colorProvider.accent,
+                                      // Text color
+                                      fontWeight: FontWeight.bold,
+                                      // Make text bold for better visibility
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
-                      ),
+                      )
                     ],
                   ),
                 ],
               ),
             ),
+            // wysokość nad floating btn
+            const SizedBox(height: 66)
           ],
         ),
       ),

@@ -201,6 +201,8 @@ class _Calculator1RMState extends State<Calculator1RM> {
                 ],
               ),
             ),
+            // wysokość nad floating btn
+            const SizedBox(height: 66)
           ],
         ),
       ),

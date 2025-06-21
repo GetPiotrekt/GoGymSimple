@@ -31,8 +31,8 @@ class CustomizeFloatingButtons extends StatelessWidget {
           );
           refreshScreen(); // Refresh the screen after returning
         },
-      backgroundColor: colorProvider.secondary, // Button background color
-      foregroundColor: colorProvider.accent, // Icon color
+      backgroundColor: colorProvider.accent, // Button background color
+      foregroundColor: colorProvider.secondary, // Icon color
       child: const Icon(
         Icons.add,
       ),

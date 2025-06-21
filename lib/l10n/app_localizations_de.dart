@@ -398,6 +398,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get plateDialog_invalidTargetWeight => 'Zielgewicht zu niedrig';
 
   @override
+  String get plateDialog_noCombinationFound =>
+      'Keine gültige Scheibenkombination für das gewählte Gewicht gefunden';
+
+  @override
   String get measurementTile_noData =>
       'Keine Daten. Drücken Sie die Taste \'Messung\', um einen Wert hinzuzufügen.';
 
@@ -472,6 +476,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Sie können eine neue Kategorie mit der Schaltfläche unten hinzufügen.';
 
   @override
+  String get measurementTracker_measurementDate => 'Messdatum';
+
+  @override
   String get weightTracker_title => 'Gewicht verfolgen';
 
   @override
@@ -493,6 +500,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String weightTracker_daysAgo(Object daysAgo) {
     return ' vor $daysAgo Tagen';
   }
+
+  @override
+  String get weightTracker_legendWeightSaved =>
+      'Tage mit gespeichertem Gewicht';
 
   @override
   String get drawer_tools_section => 'Werkzeuge';
@@ -639,6 +650,19 @@ class AppLocalizationsDe extends AppLocalizations {
       'Name des Trainingsplans eingeben';
 
   @override
+  String get tabBottomDrawer_editTitle => 'Name bearbeiten';
+
+  @override
+  String get tabBottomDrawer_editExercise => 'Übung bearbeiten';
+
+  @override
+  String get tabBottomDrawer_editLabel => 'Gib einen neuen Namen ein';
+
+  @override
+  String get tabBottomDrawer_refreshScreen =>
+      'Aktualisiere den Bildschirm, um die Änderungen anzuzeigen';
+
+  @override
   String get tabSector_gym => 'Fitnessstudio';
 
   @override
@@ -649,6 +673,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get tabSector_workoutPlan => 'Trainingsplan';
+
+  @override
+  String get tabSector_userGym => 'Benutzer & Fitnessstudio';
+
+  @override
+  String get tabSector_filter => 'Filtern';
 
   @override
   String get sortSector_aToZ => 'A ... Z';
@@ -777,7 +807,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String addUserAndGym_title(Object exercise) {
-    return 'Weise $exercise einem Benutzer und Fitnessstudio zu';
+    return 'Weise Übung einem Benutzer und Fitnessstudio zu';
   }
 
   @override
@@ -795,7 +825,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String addUserAndGym_workoutGlobalNote(Object exerciseName) {
-    return 'Globale Notiz für die Übung $exerciseName';
+    return 'Füge eine allgemeine Notiz für die Übung hinzu – z. B. Geräteeinstellung, Griffart, technische Hinweise usw.';
   }
 
   @override
@@ -812,7 +842,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get resultsExpansion_quickValue => 'Schnellen Wert setzen';
 
   @override
-  String get resultsExpansion_quickValueSet => 'Text oder Zahl eingeben';
+  String get resultsExpansion_quickValueSet =>
+      'z. B. Trainingsziel oder bester Set';
 
   @override
   String get resultsExpansion_deleteWorkoutConfirmation =>
@@ -856,7 +887,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notificationScreen_permissionTooltip =>
-      'Bitte um Benachrichtigungsberechtigung';
+      'Klicken Sie hier, um bearbeitbare Benachrichtigungen zu aktivieren';
 
   @override
   String get notificationList_title => 'Gespeicherte Benachrichtigungen:';
@@ -901,6 +932,17 @@ class AppLocalizationsDe extends AppLocalizations {
       'Möchtest du diese Benachrichtigung wirklich löschen?';
 
   @override
+  String get notificationList_deleteAll => 'Alle löschen';
+
+  @override
+  String get notificationList_confirmAll_title =>
+      'Alle Benachrichtigungen löschen?';
+
+  @override
+  String get notificationList_confirmAll_content =>
+      'Möchtest du wirklich alle gespeicherten Benachrichtigungen löschen?';
+
+  @override
   String get notificationForm_titleLabel => 'Benachrichtigungstitel:';
 
   @override
@@ -921,7 +963,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notificationForm_added => 'Benachrichtigung hinzugefügt!';
 
   @override
-  String get notificationForm_typeLabel => 'Erinnerungstyp:';
+  String get notificationForm_typeLabel => 'Erinnerung:';
 
   @override
   String get notificationForm_typeTraining => 'Zum Training';
@@ -936,7 +978,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notificationForm_typeCustom => 'Benutzerdefiniert';
 
   @override
-  String get notificationForm_modeLabel => 'Erinnerungsmodus:';
+  String get notificationForm_modeLabel => 'Zeitplan:';
 
   @override
   String get notificationForm_modeDaily => 'Täglich';
@@ -996,6 +1038,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Zeit für die Körpermessung. Verfolge deine Fortschritte!';
 
   @override
+  String get notificationForm_testNotification => 'Benachrichtigung testen';
+
+  @override
   String get timePicker_label => 'Uhrzeit';
 
   @override
@@ -1010,6 +1055,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get watchAds_counter => 'Angesehene Werbungen:';
+
+  @override
+  String get watchAds_error =>
+      'Vielen Dank für Ihre Unterstützung! Leider konnte die Anzeige nicht geladen werden';
 
   @override
   String get shareApp_title => 'App teilen';
@@ -1029,6 +1078,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get shareApp_linkCopied => 'Link in die Zwischenablage kopiert';
+
+  @override
+  String get shareApp_ratingTitle => 'Gefällt dir GoGymSimple?';
+
+  @override
+  String get shareApp_ratingSubtitle =>
+      'Möchtest du GoGymSimple bewerten? Dein Feedback hilft anderen, die App zu entdecken.';
+
+  @override
+  String get shareApp_ratingYes => 'Klar!';
 
   @override
   String get donate_title => 'Unterstütze uns';
@@ -1062,6 +1121,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get donateSections_voluntaryTitle => '100% Freiwillig';
+
+  @override
+  String get donateSections_storeUnavailableMessage =>
+      'Shop nicht verfügbar. Überprüfen Sie Ihre Internetverbindung';
 
   @override
   String get donateSections_voluntaryDesc =>
@@ -1181,4 +1244,105 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get stopwatch_title => 'Stoppuhr';
+
+  @override
+  String get workoutScreen_title => 'Training';
+
+  @override
+  String get workoutScreen_gym => 'Fitnessstudio auswählen';
+
+  @override
+  String get workoutScreen_gymAndDate => 'Wähle Fitnessstudio und Datum';
+
+  @override
+  String get workoutScreen_selectGymFirst => 'Wähle zuerst eine Fitnessstudio';
+
+  @override
+  String get workoutScreen_noGymSelected => 'Keine Fitnessstudio ausgewählt';
+
+  @override
+  String get workoutScreen_saved => 'Training gespeichert!';
+
+  @override
+  String get workoutScreen_participants => 'Teilnehmer';
+
+  @override
+  String get workoutScreen_plans => 'Pläne';
+
+  @override
+  String get workoutScreen_exercises => 'Übungen';
+
+  @override
+  String get workoutScreen_addExercise => 'Übung hinzufügen';
+
+  @override
+  String get workoutScreen_addNote => 'Notiz hinzufügen';
+
+  @override
+  String get workoutScreen_saveNote => 'Notiz speichern';
+
+  @override
+  String get workoutScreen_savedNote => 'Gespeichert';
+
+  @override
+  String get workoutScreen_showMoreInfo => 'Mehr Informationen anzeigen';
+
+  @override
+  String get workoutScreen_firstTime => 'Zum ersten Mal';
+
+  @override
+  String get restoreSession_title => 'Training unterbrochen';
+
+  @override
+  String get restoreSession_info =>
+      'Deine letzte Trainingseinheit wurde unterbrochen.';
+
+  @override
+  String get restoreSession_content =>
+      'Möchtest du deinen Fortschritt wiederherstellen?';
+
+  @override
+  String get restoreSession_confirm => 'Ja, wiederherstellen';
+
+  @override
+  String get restoreSession_deny => 'Neu starten';
+
+  @override
+  String get saveWorkoutDialog_save_workout_title =>
+      'Möchtest du das Training speichern?';
+
+  @override
+  String get saveWorkoutDialog_save_workout_subtitle =>
+      'Speichere dieses Training, um später darauf zurückzukommen';
+
+  @override
+  String get saveWorkoutDialog_save_workout_button => 'Training speichern';
+
+  @override
+  String get saveWorkoutDialog_dont_save_workout_button => 'Nicht jetzt';
+
+  @override
+  String get saveWorkoutDialog_support_us_title => 'Unterstütze uns';
+
+  @override
+  String get saveWorkoutDialog_support_us_subtitle =>
+      'Sieh dir eine kurze Werbung an, um die App zu unterstützen!';
+
+  @override
+  String get editDeleteBottomSheet_edit => 'Bearbeiten';
+
+  @override
+  String get editDeleteBottomSheet_delete => 'Löschen';
+
+  @override
+  String get noTrainingSection_noSaved =>
+      'Keine gespeicherten Trainings für diese Übung';
+
+  @override
+  String get noTrainingSection_startNew =>
+      'Um ein neues Training zu starten und Ergebnisse zu speichern, klicken Sie auf die Schaltfläche:';
+
+  @override
+  String get noTrainingSection_addPrevious =>
+      'Sie können diese Schaltfläche auch verwenden, um vorherige Trainings hinzuzufügen';
 }

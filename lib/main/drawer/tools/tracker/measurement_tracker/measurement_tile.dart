@@ -32,21 +32,18 @@ class MeasurementTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? latestValue;
     UserMeasurement? baselineMeasurement;
 
     if (history.isNotEmpty) {
       baselineMeasurement = history.firstWhere((m) => m.value != -1, orElse: () => history.first);
-      final recentValidEntry = history.lastWhere((m) => m.value != -1, orElse: () => baselineMeasurement!);
-      double displayValue = isInch ? recentValidEntry.value * 0.393701 : recentValidEntry.value;
-      latestValue = displayValue.toStringAsFixed(1);
+      history.lastWhere((m) => m.value != -1, orElse: () => baselineMeasurement!);
     }
 
     final t = AppLocalizations.of(context)!; // Localized text
 
     return Container(
       margin: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-      padding: const EdgeInsets.fromLTRB(2, 8, 2, 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         color: colorProvider.secondary,
         borderRadius: BorderRadius.circular(10),
@@ -56,6 +53,9 @@ class MeasurementTile extends StatelessWidget {
         child: GestureDetector(
           onLongPress: () => onDeleteCategoryCallback(bodyPart),
           child: ExpansionTile(
+            key: Key('$bodyPart-${expandedState[bodyPart]}'),
+            initiallyExpanded: expandedState[bodyPart] ?? false,
+            tilePadding: EdgeInsets.zero,
             collapsedIconColor: colorProvider.accent,
             iconColor: colorProvider.accent,
             title: Column(
@@ -88,13 +88,13 @@ class MeasurementTile extends StatelessWidget {
                     GestureDetector(
                       onTap: () => onAddMeasurement(bodyPart),
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: colorProvider.accent.withOpacity(0.08),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          latestValue == -1 ? "$latestValue ${isInch ? "in" : "cm"}" : t.measurementTile_addData,
+                          t.measurementTile_addData,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -105,17 +105,17 @@ class MeasurementTile extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Divider(
-                  thickness: 1.5,
-                  color: colorProvider.accent.withOpacity(0.15),
-                ),
               ],
             ),
             children: [
               if (history.where((m) => m.value != -1).isNotEmpty)
-                ...history.where((m) => m.value != -1).toList().reversed.map((measurement) {
-                  bool isBaseline = measurement == baselineMeasurement;
+                ...history.where((m) => m.value != -1).toList().reversed.toList().asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final measurement = entry.value;
+                  final reversedList = history.where((m) => m.value != -1).toList().reversed.toList();
+                  final isFirst = index == reversedList.length - 1;
+                  final isLast = index == 0;
+                  final isBaseline = measurement == baselineMeasurement;
 
                   double displayValue = isInch ? measurement.value * 0.393701 : measurement.value;
                   double difference = (measurement.value - baselineMeasurement!.value).abs();
@@ -126,14 +126,14 @@ class MeasurementTile extends StatelessWidget {
                       onDeleteMeasurementCallback(measurement);
                     },
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                      margin: EdgeInsets.fromLTRB(0, 6, 0, isFirst ? 12 : 6),
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: colorProvider.accent.withOpacity(0.06),
+                        color: isLast ? colorProvider.accent.withOpacity(0.2) : colorProvider.accent.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                         title: Text(
                           "${displayValue % 1 == 0 ? displayValue.toInt() : displayValue.toStringAsFixed(1)} ${isInch ? "in" : "cm"}",
                           style: TextStyle(

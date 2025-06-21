@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
+import 'package:flutter/gestures.dart'; // Import for TapGestureRecognizer
+
 import '../../../../../l10n/app_localizations.dart';
 import '../../../../../provider/color_provider.dart';
 import '../../../../../provider/landing_page_provider.dart';
@@ -22,6 +25,12 @@ class GlobalNote extends StatefulWidget {
 class _GlobalNoteState extends State<GlobalNote> {
   late TextEditingController _controller;
   bool _isEditing = false;
+
+  static final RegExp _urlRegex = RegExp(
+    r'(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+',
+    caseSensitive: false,
+    multiLine: true,
+  );
 
   @override
   void initState() {
@@ -48,6 +57,58 @@ class _GlobalNoteState extends State<GlobalNote> {
     }
   }
 
+  // Function to build the RichText with clickable links
+  TextSpan _buildTextSpan(String text, Color accentColor) {
+    final List<TextSpan> spans = [];
+    text.splitMapJoin(
+      _urlRegex,
+      onMatch: (Match match) {
+        String url = match.group(0)!;
+        // Prepend http if missing, for launchUrl to work reliably
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+          url = 'http://$url';
+        }
+        spans.add(
+          TextSpan(
+            text: match.group(0),
+            style: const TextStyle(
+              color: Colors.blue, // Link color
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () async {
+                if (await canLaunchUrl(Uri.parse(url))) {
+                  await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                } else {
+                  debugPrint('Could not launch $url');
+                  // Optionally show a snackbar or alert to the user
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Could not open link: ${match.group(0)}')),
+                  );
+                }
+              },
+          ),
+        );
+        return ''; // Return empty string as we added to spans
+      },
+      onNonMatch: (String nonMatch) {
+        spans.add(
+          TextSpan(
+            text: nonMatch,
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              color: _controller.text.isNotEmpty
+                  ? accentColor.withOpacity(0.9)
+                  : accentColor.withOpacity(0.5),
+            ),
+          ),
+        );
+        return ''; // Return empty string as we added to spans
+      },
+    );
+    return TextSpan(children: spans);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorProvider = Provider.of<ColorProvider>(context);
@@ -61,7 +122,7 @@ class _GlobalNoteState extends State<GlobalNote> {
           Text(
             t.globalNote_title,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: colorProvider.accent,
             ),
@@ -119,15 +180,15 @@ class _GlobalNoteState extends State<GlobalNote> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              _controller.text.isNotEmpty
-                                  ? _controller.text
-                                  : t.globalNote_empty,
+                            child: _controller.text.isNotEmpty
+                                ? RichText(
+                              text: _buildTextSpan(_controller.text, colorProvider.accent),
+                            )
+                                : Text(
+                              t.addUserAndGym_workoutGlobalNote(widget.workoutID),
                               style: TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: _controller.text.isNotEmpty
-                                    ? colorProvider.accent.withOpacity(0.9)
-                                    : colorProvider.accent.withOpacity(0.5),
+                                color: colorProvider.accent.withOpacity(0.5),
                               ),
                             ),
                           ),

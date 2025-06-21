@@ -447,13 +447,13 @@ abstract class AppLocalizations {
   /// No description provided for @calculator1RM_weightLabel.
   ///
   /// In en, this message translates to:
-  /// **'LIFTED WEIGHT'**
+  /// **'Weight'**
   String get calculator1RM_weightLabel;
 
   /// No description provided for @calculator1RM_repsLabel.
   ///
   /// In en, this message translates to:
-  /// **'NUMBER OF REPS'**
+  /// **'Reps'**
   String get calculator1RM_repsLabel;
 
   /// No description provided for @calculator1RM_ResultKg.
@@ -561,37 +561,37 @@ abstract class AppLocalizations {
   /// No description provided for @calculatorBmr_weight_label_metric.
   ///
   /// In en, this message translates to:
-  /// **'WEIGHT (kg)'**
+  /// **'Weight (kg)'**
   String get calculatorBmr_weight_label_metric;
 
   /// No description provided for @calculatorBmr_height_label_metric.
   ///
   /// In en, this message translates to:
-  /// **'HEIGHT (cm)'**
+  /// **'Height (cm)'**
   String get calculatorBmr_height_label_metric;
 
   /// No description provided for @calculatorBmr_weight_label_imperial.
   ///
   /// In en, this message translates to:
-  /// **'WEIGHT (lbs)'**
+  /// **'Weight (lbs)'**
   String get calculatorBmr_weight_label_imperial;
 
   /// No description provided for @calculatorBmr_height_label_imperial_feet.
   ///
   /// In en, this message translates to:
-  /// **'HEIGHT (ft)'**
+  /// **'Height (ft)'**
   String get calculatorBmr_height_label_imperial_feet;
 
   /// No description provided for @calculatorBmr_height_label_imperial_inches.
   ///
   /// In en, this message translates to:
-  /// **'HEIGHT (in)'**
+  /// **'Height (in)'**
   String get calculatorBmr_height_label_imperial_inches;
 
   /// No description provided for @calculatorBmr_age_label.
   ///
   /// In en, this message translates to:
-  /// **'AGE'**
+  /// **'Age'**
   String get calculatorBmr_age_label;
 
   /// No description provided for @calculatorBmr_male.
@@ -681,25 +681,25 @@ abstract class AppLocalizations {
   /// No description provided for @plateCalculator_barbellWeightLabelKg.
   ///
   /// In en, this message translates to:
-  /// **'BARBELL WEIGHT (kg)'**
+  /// **'Barbell (kg)'**
   String get plateCalculator_barbellWeightLabelKg;
 
   /// No description provided for @plateCalculator_barbellWeightLabelLbs.
   ///
   /// In en, this message translates to:
-  /// **'BARBELL WEIGHT (lbs)'**
+  /// **'Barbell (lbs)'**
   String get plateCalculator_barbellWeightLabelLbs;
 
   /// No description provided for @plateCalculator_totalWeightLabelKg.
   ///
   /// In en, this message translates to:
-  /// **'TOTAL WEIGHT (kg)'**
+  /// **'TOTAL (kg)'**
   String get plateCalculator_totalWeightLabelKg;
 
   /// No description provided for @plateCalculator_totalWeightLabelLbs.
   ///
   /// In en, this message translates to:
-  /// **'TOTAL WEIGHT (lbs)'**
+  /// **'TOTAL (lbs)'**
   String get plateCalculator_totalWeightLabelLbs;
 
   /// No description provided for @plateCalculator_weightOnSideKg.
@@ -761,6 +761,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Target weight is less than barbell weight'**
   String get plateDialog_invalidTargetWeight;
+
+  /// No description provided for @plateDialog_noCombinationFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No valid plate combination could be found for the selected weight'**
+  String get plateDialog_noCombinationFound;
 
   /// No description provided for @measurementTile_noData.
   ///
@@ -888,6 +894,12 @@ abstract class AppLocalizations {
   /// **'You can add a new category using the button below.'**
   String get measurementTracker_add_category_hint;
 
+  /// No description provided for @measurementTracker_measurementDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Measurement Date'**
+  String get measurementTracker_measurementDate;
+
   /// No description provided for @weightTracker_title.
   ///
   /// In en, this message translates to:
@@ -929,6 +941,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **' ({daysAgo} ago)'**
   String weightTracker_daysAgo(Object daysAgo);
+
+  /// No description provided for @weightTracker_legendWeightSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Days with saved weight'**
+  String get weightTracker_legendWeightSaved;
 
   /// No description provided for @drawer_tools_section.
   ///
@@ -1206,6 +1224,30 @@ abstract class AppLocalizations {
   /// **'Enter workout plan name'**
   String get tabBottomDrawer_enterWorkoutPlanName;
 
+  /// No description provided for @tabBottomDrawer_editTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit name'**
+  String get tabBottomDrawer_editTitle;
+
+  /// No description provided for @tabBottomDrawer_editExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit exercise'**
+  String get tabBottomDrawer_editExercise;
+
+  /// No description provided for @tabBottomDrawer_editLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new name'**
+  String get tabBottomDrawer_editLabel;
+
+  /// No description provided for @tabBottomDrawer_refreshScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh the screen to see the changes'**
+  String get tabBottomDrawer_refreshScreen;
+
   /// No description provided for @tabSector_gym.
   ///
   /// In en, this message translates to:
@@ -1229,6 +1271,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Workout plan'**
   String get tabSector_workoutPlan;
+
+  /// No description provided for @tabSector_userGym.
+  ///
+  /// In en, this message translates to:
+  /// **'User & Gym'**
+  String get tabSector_userGym;
+
+  /// No description provided for @tabSector_filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get tabSector_filter;
 
   /// No description provided for @sortSector_aToZ.
   ///
@@ -1455,7 +1509,7 @@ abstract class AppLocalizations {
   /// No description provided for @addUserAndGym_title.
   ///
   /// In en, this message translates to:
-  /// **'Assign {exercise} to User and Gym'**
+  /// **'Assign Exercise to User and Gym'**
   String addUserAndGym_title(Object exercise);
 
   /// No description provided for @addUserAndGym_selectUser.
@@ -1485,7 +1539,7 @@ abstract class AppLocalizations {
   /// No description provided for @addUserAndGym_workoutGlobalNote.
   ///
   /// In en, this message translates to:
-  /// **'Global note for exercise {exerciseName}'**
+  /// **'Add a general note for the exercise – e.g. machine setup, grip type, technical tips, etc.'**
   String addUserAndGym_workoutGlobalNote(Object exerciseName);
 
   /// No description provided for @resultsExpansion_title.
@@ -1509,7 +1563,7 @@ abstract class AppLocalizations {
   /// No description provided for @resultsExpansion_quickValueSet.
   ///
   /// In en, this message translates to:
-  /// **'Enter text or number'**
+  /// **'e.g. training goal or best set'**
   String get resultsExpansion_quickValueSet;
 
   /// No description provided for @resultsExpansion_deleteWorkoutConfirmation.
@@ -1593,7 +1647,7 @@ abstract class AppLocalizations {
   /// No description provided for @notificationScreen_permissionTooltip.
   ///
   /// In en, this message translates to:
-  /// **'Request notification permissions'**
+  /// **'Click here to enable editable notifications'**
   String get notificationScreen_permissionTooltip;
 
   /// No description provided for @notificationList_title.
@@ -1668,6 +1722,24 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this notification?'**
   String get notificationList_confirm_content;
 
+  /// No description provided for @notificationList_deleteAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all'**
+  String get notificationList_deleteAll;
+
+  /// No description provided for @notificationList_confirmAll_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all notifications?'**
+  String get notificationList_confirmAll_title;
+
+  /// No description provided for @notificationList_confirmAll_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete all saved notifications?'**
+  String get notificationList_confirmAll_content;
+
   /// No description provided for @notificationForm_titleLabel.
   ///
   /// In en, this message translates to:
@@ -1695,7 +1767,7 @@ abstract class AppLocalizations {
   /// No description provided for @notificationForm_addNotification.
   ///
   /// In en, this message translates to:
-  /// **'Add Notification'**
+  /// **'Add notification'**
   String get notificationForm_addNotification;
 
   /// No description provided for @notificationForm_added.
@@ -1707,7 +1779,7 @@ abstract class AppLocalizations {
   /// No description provided for @notificationForm_typeLabel.
   ///
   /// In en, this message translates to:
-  /// **'Reminder type:'**
+  /// **'Reminder:'**
   String get notificationForm_typeLabel;
 
   /// No description provided for @notificationForm_typeTraining.
@@ -1737,7 +1809,7 @@ abstract class AppLocalizations {
   /// No description provided for @notificationForm_modeLabel.
   ///
   /// In en, this message translates to:
-  /// **'Notification mode:'**
+  /// **'Schedule:'**
   String get notificationForm_modeLabel;
 
   /// No description provided for @notificationForm_modeDaily.
@@ -1848,6 +1920,12 @@ abstract class AppLocalizations {
   /// **'Time to measure your body. Track your progress!'**
   String get notificationForm_defaultMessageMeasurement;
 
+  /// No description provided for @notificationForm_testNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Test notification'**
+  String get notificationForm_testNotification;
+
   /// No description provided for @timePicker_label.
   ///
   /// In en, this message translates to:
@@ -1877,6 +1955,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ads Watched:'**
   String get watchAds_counter;
+
+  /// No description provided for @watchAds_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your support! Unfortunately, the ad could not be loaded'**
+  String get watchAds_error;
 
   /// No description provided for @shareApp_title.
   ///
@@ -1913,6 +1997,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Link copied to clipboard'**
   String get shareApp_linkCopied;
+
+  /// No description provided for @shareApp_ratingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoying GoGymSimple?'**
+  String get shareApp_ratingTitle;
+
+  /// No description provided for @shareApp_ratingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to rate GoGymSimple? Your review helps others discover the app.'**
+  String get shareApp_ratingSubtitle;
+
+  /// No description provided for @shareApp_ratingYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Sure!'**
+  String get shareApp_ratingYes;
 
   /// No description provided for @donate_title.
   ///
@@ -1959,7 +2061,7 @@ abstract class AppLocalizations {
   /// No description provided for @donateSections_oneTimeDesc.
   ///
   /// In en, this message translates to:
-  /// **'Make a single contribution of chosen amount'**
+  /// **'Make a single contribution of your chosen amount'**
   String get donateSections_oneTimeDesc;
 
   /// No description provided for @donateSections_oneTimeButton.
@@ -1973,6 +2075,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'100% Voluntary'**
   String get donateSections_voluntaryTitle;
+
+  /// No description provided for @donateSections_storeUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Store unavailable. Check your internet connection'**
+  String get donateSections_storeUnavailableMessage;
 
   /// No description provided for @donateSections_voluntaryDesc.
   ///
@@ -2195,6 +2303,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stopwatch'**
   String get stopwatch_title;
+
+  /// No description provided for @workoutScreen_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout'**
+  String get workoutScreen_title;
+
+  /// No description provided for @workoutScreen_gym.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose gym'**
+  String get workoutScreen_gym;
+
+  /// No description provided for @workoutScreen_gymAndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Gym & Date'**
+  String get workoutScreen_gymAndDate;
+
+  /// No description provided for @workoutScreen_selectGymFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a gym first'**
+  String get workoutScreen_selectGymFirst;
+
+  /// No description provided for @workoutScreen_noGymSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No gym selected'**
+  String get workoutScreen_noGymSelected;
+
+  /// No description provided for @workoutScreen_saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout saved!'**
+  String get workoutScreen_saved;
+
+  /// No description provided for @workoutScreen_participants.
+  ///
+  /// In en, this message translates to:
+  /// **'Participants'**
+  String get workoutScreen_participants;
+
+  /// No description provided for @workoutScreen_plans.
+  ///
+  /// In en, this message translates to:
+  /// **'Plans'**
+  String get workoutScreen_plans;
+
+  /// No description provided for @workoutScreen_exercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises'**
+  String get workoutScreen_exercises;
+
+  /// No description provided for @workoutScreen_addExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Exercise'**
+  String get workoutScreen_addExercise;
+
+  /// No description provided for @workoutScreen_addNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add note'**
+  String get workoutScreen_addNote;
+
+  /// No description provided for @workoutScreen_saveNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Save note'**
+  String get workoutScreen_saveNote;
+
+  /// No description provided for @workoutScreen_savedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get workoutScreen_savedNote;
+
+  /// No description provided for @workoutScreen_showMoreInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more information'**
+  String get workoutScreen_showMoreInfo;
+
+  /// No description provided for @workoutScreen_firstTime.
+  ///
+  /// In en, this message translates to:
+  /// **'First time'**
+  String get workoutScreen_firstTime;
+
+  /// No description provided for @restoreSession_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout Interrupted'**
+  String get restoreSession_title;
+
+  /// No description provided for @restoreSession_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Your previous training session was interrupted.'**
+  String get restoreSession_info;
+
+  /// No description provided for @restoreSession_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to restore your progress?'**
+  String get restoreSession_content;
+
+  /// No description provided for @restoreSession_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, restore'**
+  String get restoreSession_confirm;
+
+  /// No description provided for @restoreSession_deny.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Fresh'**
+  String get restoreSession_deny;
+
+  /// No description provided for @saveWorkoutDialog_save_workout_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to save your workout?'**
+  String get saveWorkoutDialog_save_workout_title;
+
+  /// No description provided for @saveWorkoutDialog_save_workout_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Save this workout so you can revisit it later'**
+  String get saveWorkoutDialog_save_workout_subtitle;
+
+  /// No description provided for @saveWorkoutDialog_save_workout_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Workout'**
+  String get saveWorkoutDialog_save_workout_button;
+
+  /// No description provided for @saveWorkoutDialog_dont_save_workout_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get saveWorkoutDialog_dont_save_workout_button;
+
+  /// No description provided for @saveWorkoutDialog_support_us_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Support Us'**
+  String get saveWorkoutDialog_support_us_title;
+
+  /// No description provided for @saveWorkoutDialog_support_us_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch a short ad to support the app!'**
+  String get saveWorkoutDialog_support_us_subtitle;
+
+  /// No description provided for @editDeleteBottomSheet_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editDeleteBottomSheet_edit;
+
+  /// No description provided for @editDeleteBottomSheet_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get editDeleteBottomSheet_delete;
+
+  /// No description provided for @noTrainingSection_noSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved workouts for this exercise'**
+  String get noTrainingSection_noSaved;
+
+  /// No description provided for @noTrainingSection_startNew.
+  ///
+  /// In en, this message translates to:
+  /// **'To start a new workout and save results, click the button:'**
+  String get noTrainingSection_startNew;
+
+  /// No description provided for @noTrainingSection_addPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'You can also use this button to add previous workouts'**
+  String get noTrainingSection_addPrevious;
 }
 
 class _AppLocalizationsDelegate

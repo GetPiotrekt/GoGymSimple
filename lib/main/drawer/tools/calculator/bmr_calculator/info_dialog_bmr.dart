@@ -24,51 +24,53 @@ class InfoDialogBMR extends StatelessWidget {
       backgroundColor: colorProvider.secondary,
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              t.bmrInfo_title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: colorProvider.accent,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(height: 15),
-            Text(
-              t.bmrInfo_text1,
-              style: TextStyle(color: colorProvider.accent),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              t.bmrInfo_text2,
-              style: TextStyle(color: colorProvider.accent),
-            ),
-            const SizedBox(height: 15),
-            Text(
-              t.bmrInfo_recommended,
-              style: TextStyle(color: colorProvider.accent),
-            ),
-            const SizedBox(height: 10),
-            _buildProteinInfo(colorProvider, t, isImperial),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorProvider.secondary,
-                foregroundColor: colorProvider.accent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                t.bmrInfo_title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: colorProvider.accent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
                 ),
               ),
-              child: Text(t.bmrInfo_close),
-            ),
-          ],
+              const SizedBox(height: 15),
+              Text(
+                t.bmrInfo_text1,
+                style: TextStyle(color: colorProvider.accent),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                t.bmrInfo_text2,
+                style: TextStyle(color: colorProvider.accent),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                t.bmrInfo_recommended,
+                style: TextStyle(color: colorProvider.accent),
+              ),
+              const SizedBox(height: 10),
+              _buildProteinInfo(colorProvider, t, isImperial),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colorProvider.secondary,
+                  foregroundColor: colorProvider.accent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(t.bmrInfo_close),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../provider/color_provider.dart';
 import '../../../../provider/selected_options_provider.dart';
-import '../../../../util/dropdown.dart';
+import '../../../../util/custom_dropdown.dart';
 import '../../../l10n/app_localizations.dart';
 
 class SortSector extends StatelessWidget {

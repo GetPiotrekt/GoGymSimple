@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../../../data/workout_db.dart';
+import '../../../../../data/workout/workout_db.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../../../../util/dates_and_time/days_ago.dart';
 import '../../../../../provider/color_provider.dart';
@@ -15,8 +15,7 @@ class ResultsExpansion extends StatefulWidget {
   final List<Widget> children;
   final bool initiallyExpanded;
   final void Function()? onAddPressed;
-  final String quickValue; // <- zmieniono na String
-  final String? iconPath;
+  final String quickValue;
   final int workoutID;
 
   const ResultsExpansion({
@@ -27,7 +26,6 @@ class ResultsExpansion extends StatefulWidget {
     this.initiallyExpanded = false,
     this.onAddPressed,
     required this.quickValue,
-    this.iconPath,
     required this.workoutID,
     super.key,
   });
@@ -44,7 +42,6 @@ class _ResultsExpansionState extends State<ResultsExpansion> {
   @override
   void initState() {
     super.initState();
-    selectedIconPath = widget.iconPath;
     quickValue = widget.quickValue;
   }
 
@@ -62,6 +59,7 @@ class _ResultsExpansionState extends State<ResultsExpansion> {
           }
         },
         child: ExpansionTile(
+          tilePadding: const EdgeInsets.only(right: 8),
           onExpansionChanged: (expanded) {
             setState(() {
               _isExpanded = expanded;
@@ -70,33 +68,7 @@ class _ResultsExpansionState extends State<ResultsExpansion> {
           iconColor: colorProvider.accent,
           collapsedIconColor: colorProvider.accent.withOpacity(0.7),
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      t.resultsExpansion_title(widget.userName, widget.gymName),
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: colorProvider.accent,
-                      ),
-                    ),
-                  ),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      DaysAgo.formatNoteDate(context, widget.lastNoteDate),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: colorProvider.accent.withOpacity(0.7),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               if (quickValue != null)
                 GestureDetector(
                   onTap: () => _editQuickValue(context),
@@ -106,11 +78,12 @@ class _ResultsExpansionState extends State<ResultsExpansion> {
                       border: Border.all(color: colorProvider.accent.withOpacity(0.5), width: 1.5),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                     child: SizedBox(
-                      width: 70, // ustalony max rozmiar pola (możesz dostosować)
+                      width: 70,
                       child: FittedBox(
-                        fit: BoxFit.scaleDown, // zmniejsza tekst, ale nie powiększa
+                        fit: BoxFit.scaleDown,
                         alignment: Alignment.center,
                         child: (quickValue == null || quickValue!.trim().isEmpty)
                             ? Icon(Icons.edit, size: 20, color: colorProvider.accent)
@@ -126,6 +99,34 @@ class _ResultsExpansionState extends State<ResultsExpansion> {
                     ),
                   ),
                 ),
+
+              // Reszta treści, zajmująca dostępne miejsce
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FittedBox(
+                      child: Text(
+                        t.resultsExpansion_title(widget.userName, widget.gymName),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: colorProvider.accent,
+                        ),
+                      ),
+                    ),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        DaysAgo.formatNoteDate(context, widget.lastNoteDate),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: colorProvider.accent.withOpacity(0.7),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           initiallyExpanded: widget.initiallyExpanded,
@@ -144,6 +145,7 @@ class _ResultsExpansionState extends State<ResultsExpansion> {
       labelText: t.resultsExpansion_quickValueSet,
       initialText: quickValue ?? '',
       inputType: TextInputType.text,
+      maxLength: 16,
     );
 
     if (newQuickValue != null) {

@@ -7,8 +7,11 @@ import '../../util/button_icon.dart';
 import '../../util/input_form_field/input_form_field.dart';
 
 class WelcomeExerciseStep {
+  static Locale? _previousLocale;
+
   static Widget build({
-    required BuildContext context, // teraz kontekst jest wymagany
+    required BuildContext context,
+    required Locale locale,
     required List<String> allExercises,
     required Set<String> selectedExercises,
     required void Function(String exercise, bool selected) onExerciseToggle,
@@ -16,13 +19,18 @@ class WelcomeExerciseStep {
     required VoidCallback onAddExercise,
     required TextEditingController newExerciseController,
     required ColorProvider cp,
+    required void Function() onResetSelectedExercises,
   }) {
+    if (_previousLocale != null && _previousLocale != locale) {
+      onResetSelectedExercises();
+    }
+    _previousLocale = locale;
+
+    final t = AppLocalizations.of(context)!;
+    final shouldShowNextButton = selectedExercises.isNotEmpty;
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final t = AppLocalizations.of(context)!;
-        final shouldShowNextButton = selectedExercises.isNotEmpty;
-
         return Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
@@ -96,31 +104,43 @@ class WelcomeExerciseStep {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: InputFormField(
-                            labelText: t.welcomeExerciseStep_exampleExercise,
-                            controller: newExerciseController,
-                            keyboardType: TextInputType.text,
-                            fontSize: 16,
-                            enabled: true,
-                            onSubmitted: (_) => onAddExercise(),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        ElevatedButton(
-                          onPressed: onAddExercise,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: cp.accent,
-                            foregroundColor: cp.secondary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                    StatefulBuilder(
+                      builder: (context, setState) {
+                        newExerciseController.addListener(() {
+                          setState(() {}); // odśwież widok, gdy tekst się zmienia
+                        });
+
+                        final hasText = newExerciseController.text.trim().isNotEmpty;
+
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: InputFormField(
+                                labelText: t.welcomeExerciseStep_exampleExercise,
+                                controller: newExerciseController,
+                                keyboardType: TextInputType.text,
+                                fontSize: 16,
+                                enabled: true,
+                                onSubmitted: (_) => hasText ? onAddExercise() : null,
+                              ),
                             ),
-                          ),
-                          child: Text(t.welcomeExerciseStep_addButton),
-                        ),
-                      ],
+                            if (hasText) ...[
+                              const SizedBox(width: 8),
+                              ElevatedButton(
+                                onPressed: onAddExercise,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: cp.accent,
+                                  foregroundColor: cp.secondary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(t.welcomeExerciseStep_addButton),
+                              ),
+                            ],
+                          ],
+                        );
+                      },
                     ),
                     if (shouldShowNextButton) const SizedBox(height: 24),
                     if (shouldShowNextButton)
@@ -152,6 +172,5 @@ class WelcomeExerciseStep {
         );
       },
     );
-
   }
 }

@@ -1,3 +1,4 @@
+import 'package:GoGymSimple/util/snackbar_helper.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,7 +6,9 @@ import 'package:provider/provider.dart';
 import '../../../../../provider/color_provider.dart';
 import '../../../../data/config_db.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../../util/bottom_sheet.dart';
+import '../../../../util/bottom_sheet/bottom_sheet.dart';
+import '../../../../util/custom_confetti.dart';
+import '../../../../util/dialog/confirmation_dialog.dart';
 import 'ad_manager.dart';
 
 class WatchAd extends StatefulWidget {
@@ -19,11 +22,11 @@ class WatchAd extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => BottomSheetTemplate(
-        child: const WatchAd(),
-        onPressed: () {},
+      builder: (_) => const BottomSheetTemplate(
+        child: WatchAd(),
       ),
     );
+    FocusScope.of(context).unfocus();
   }
 }
 
@@ -35,7 +38,8 @@ class _WatchAdState extends State<WatchAd> {
   @override
   void initState() {
     super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController =
+        ConfettiController(duration: const Duration(seconds: 3));
     _loadAdWatchCount();
   }
 
@@ -77,8 +81,24 @@ class _WatchAdState extends State<WatchAd> {
           () {
         _handleAdWatched();
       },
+      onAdFailedToLoad: () {
+        setState(() {
+          _isLoadingAd = false;
+        });
+
+        // Zamiana snackbar na dialog
+        showConfirmationDialog(
+          context: context,
+          title: ":)",
+          content: AppLocalizations.of(context)!.watchAds_error,
+          onConfirmed: () {
+            // Opcjonalna akcja po potwierdzeniu, np. zamknięcie dialogu - ale to jest już w dialogu
+          },
+        );
+      },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +108,7 @@ class _WatchAdState extends State<WatchAd> {
     return Stack(
       children: [
         Container(
+          margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
             color: cp.secondary,
             borderRadius: BorderRadius.circular(16),
@@ -139,9 +160,14 @@ class _WatchAdState extends State<WatchAd> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.play_circle_outline, color: cp.secondary, size: 32),
+                                Icon(Icons.play_circle_outline,
+                                    color: cp.secondary, size: 32),
                                 const SizedBox(height: 4),
-                                Text(t.watchAds_button, style: TextStyle(color: cp.secondary)),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(t.watchAds_button,
+                                      style: TextStyle(color: cp.secondary)),
+                                ),
                               ],
                             ),
                           ),
@@ -157,7 +183,8 @@ class _WatchAdState extends State<WatchAd> {
                             ),
                             child: Center(
                               child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(cp.accent),
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(cp.accent),
                               ),
                             ),
                           ),
@@ -172,7 +199,8 @@ class _WatchAdState extends State<WatchAd> {
                         children: [
                           Icon(Icons.visibility, color: cp.accent),
                           const SizedBox(width: 8),
-                          Text(t.watchAds_counter, style: TextStyle(color: cp.accent)),
+                          Text(t.watchAds_counter,
+                              style: TextStyle(color: cp.accent)),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -203,26 +231,7 @@ class _WatchAdState extends State<WatchAd> {
         ),
         Align(
           alignment: Alignment.topCenter,
-          child: ConfettiWidget(
-            confettiController: _confettiController,
-            blastDirection: 3,
-            shouldLoop: false,
-            numberOfParticles: 30, // Więcej cząsteczek
-            emissionFrequency: 0.05, // Częstsze emisje
-            maxBlastForce: 30, // Większy zasięg
-            minBlastForce: 10,
-            gravity: 0.2, // Powolne opadanie
-            colors: const [
-              Colors.green,
-              Colors.blue,
-              Colors.orange,
-              Colors.purple,
-              Colors.pink,
-              Colors.yellow,
-              Colors.red,
-            ],
-          ),
-
+          child: CustomConfetti(confettiController: _confettiController)
         ),
       ],
     );

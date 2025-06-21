@@ -208,10 +208,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Fill in the fields below to see the 1RM result';
 
   @override
-  String get calculator1RM_weightLabel => 'LIFTED WEIGHT';
+  String get calculator1RM_weightLabel => 'Weight';
 
   @override
-  String get calculator1RM_repsLabel => 'NUMBER OF REPS';
+  String get calculator1RM_repsLabel => 'Reps';
 
   @override
   String calculator1RM_ResultKg(Object value) {
@@ -272,22 +272,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calculatorBmr_title => 'BMR Calculator';
 
   @override
-  String get calculatorBmr_weight_label_metric => 'WEIGHT (kg)';
+  String get calculatorBmr_weight_label_metric => 'Weight (kg)';
 
   @override
-  String get calculatorBmr_height_label_metric => 'HEIGHT (cm)';
+  String get calculatorBmr_height_label_metric => 'Height (cm)';
 
   @override
-  String get calculatorBmr_weight_label_imperial => 'WEIGHT (lbs)';
+  String get calculatorBmr_weight_label_imperial => 'Weight (lbs)';
 
   @override
-  String get calculatorBmr_height_label_imperial_feet => 'HEIGHT (ft)';
+  String get calculatorBmr_height_label_imperial_feet => 'Height (ft)';
 
   @override
-  String get calculatorBmr_height_label_imperial_inches => 'HEIGHT (in)';
+  String get calculatorBmr_height_label_imperial_inches => 'Height (in)';
 
   @override
-  String get calculatorBmr_age_label => 'AGE';
+  String get calculatorBmr_age_label => 'Age';
 
   @override
   String get calculatorBmr_male => 'Male';
@@ -338,16 +338,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get plateCalculator_selectPlates => 'Select available plates:';
 
   @override
-  String get plateCalculator_barbellWeightLabelKg => 'BARBELL WEIGHT (kg)';
+  String get plateCalculator_barbellWeightLabelKg => 'Barbell (kg)';
 
   @override
-  String get plateCalculator_barbellWeightLabelLbs => 'BARBELL WEIGHT (lbs)';
+  String get plateCalculator_barbellWeightLabelLbs => 'Barbell (lbs)';
 
   @override
-  String get plateCalculator_totalWeightLabelKg => 'TOTAL WEIGHT (kg)';
+  String get plateCalculator_totalWeightLabelKg => 'TOTAL (kg)';
 
   @override
-  String get plateCalculator_totalWeightLabelLbs => 'TOTAL WEIGHT (lbs)';
+  String get plateCalculator_totalWeightLabelLbs => 'TOTAL (lbs)';
 
   @override
   String plateCalculator_weightOnSideKg(Object weight) {
@@ -390,6 +390,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get plateDialog_invalidTargetWeight =>
       'Target weight is less than barbell weight';
+
+  @override
+  String get plateDialog_noCombinationFound =>
+      'No valid plate combination could be found for the selected weight';
 
   @override
   String get measurementTile_noData =>
@@ -465,6 +469,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can add a new category using the button below.';
 
   @override
+  String get measurementTracker_measurementDate => 'Measurement Date';
+
+  @override
   String get weightTracker_title => 'Weight Tracker';
 
   @override
@@ -486,6 +493,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String weightTracker_daysAgo(Object daysAgo) {
     return ' ($daysAgo ago)';
   }
+
+  @override
+  String get weightTracker_legendWeightSaved => 'Days with saved weight';
 
   @override
   String get drawer_tools_section => 'Tools';
@@ -630,6 +640,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabBottomDrawer_enterWorkoutPlanName => 'Enter workout plan name';
 
   @override
+  String get tabBottomDrawer_editTitle => 'Edit name';
+
+  @override
+  String get tabBottomDrawer_editExercise => 'Edit exercise';
+
+  @override
+  String get tabBottomDrawer_editLabel => 'Enter new name';
+
+  @override
+  String get tabBottomDrawer_refreshScreen =>
+      'Refresh the screen to see the changes';
+
+  @override
   String get tabSector_gym => 'Gym';
 
   @override
@@ -640,6 +663,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tabSector_workoutPlan => 'Workout plan';
+
+  @override
+  String get tabSector_userGym => 'User & Gym';
+
+  @override
+  String get tabSector_filter => 'Filter';
 
   @override
   String get sortSector_aToZ => 'A ... Z';
@@ -769,7 +798,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String addUserAndGym_title(Object exercise) {
-    return 'Assign $exercise to User and Gym';
+    return 'Assign Exercise to User and Gym';
   }
 
   @override
@@ -787,7 +816,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String addUserAndGym_workoutGlobalNote(Object exerciseName) {
-    return 'Global note for exercise $exerciseName';
+    return 'Add a general note for the exercise – e.g. machine setup, grip type, technical tips, etc.';
   }
 
   @override
@@ -804,7 +833,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resultsExpansion_quickValue => 'Set Quick Value';
 
   @override
-  String get resultsExpansion_quickValueSet => 'Enter text or number';
+  String get resultsExpansion_quickValueSet => 'e.g. training goal or best set';
 
   @override
   String get resultsExpansion_deleteWorkoutConfirmation =>
@@ -848,7 +877,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationScreen_permissionTooltip =>
-      'Request notification permissions';
+      'Click here to enable editable notifications';
 
   @override
   String get notificationList_title => 'Saved notifications:';
@@ -892,6 +921,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this notification?';
 
   @override
+  String get notificationList_deleteAll => 'Delete all';
+
+  @override
+  String get notificationList_confirmAll_title => 'Delete all notifications?';
+
+  @override
+  String get notificationList_confirmAll_content =>
+      'Are you sure you want to delete all saved notifications?';
+
+  @override
   String get notificationForm_titleLabel => 'Notification title:';
 
   @override
@@ -906,13 +945,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter your custom notification message...';
 
   @override
-  String get notificationForm_addNotification => 'Add Notification';
+  String get notificationForm_addNotification => 'Add notification';
 
   @override
   String get notificationForm_added => 'Notification added!';
 
   @override
-  String get notificationForm_typeLabel => 'Reminder type:';
+  String get notificationForm_typeLabel => 'Reminder:';
 
   @override
   String get notificationForm_typeTraining => 'Training';
@@ -927,7 +966,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationForm_typeCustom => 'Custom';
 
   @override
-  String get notificationForm_modeLabel => 'Notification mode:';
+  String get notificationForm_modeLabel => 'Schedule:';
 
   @override
   String get notificationForm_modeDaily => 'Daily';
@@ -987,6 +1026,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Time to measure your body. Track your progress!';
 
   @override
+  String get notificationForm_testNotification => 'Test notification';
+
+  @override
   String get timePicker_label => 'Time';
 
   @override
@@ -1001,6 +1043,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get watchAds_counter => 'Ads Watched:';
+
+  @override
+  String get watchAds_error =>
+      'Thank you for your support! Unfortunately, the ad could not be loaded';
 
   @override
   String get shareApp_title => 'Share App';
@@ -1021,6 +1067,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareApp_linkCopied => 'Link copied to clipboard';
+
+  @override
+  String get shareApp_ratingTitle => 'Enjoying GoGymSimple?';
+
+  @override
+  String get shareApp_ratingSubtitle =>
+      'Would you like to rate GoGymSimple? Your review helps others discover the app.';
+
+  @override
+  String get shareApp_ratingYes => 'Sure!';
 
   @override
   String get donate_title => 'Support Us';
@@ -1047,13 +1103,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get donateSections_oneTimeDesc =>
-      'Make a single contribution of chosen amount';
+      'Make a single contribution of your chosen amount';
 
   @override
   String get donateSections_oneTimeButton => 'Donate Now';
 
   @override
   String get donateSections_voluntaryTitle => '100% Voluntary';
+
+  @override
+  String get donateSections_storeUnavailableMessage =>
+      'Store unavailable. Check your internet connection';
 
   @override
   String get donateSections_voluntaryDesc =>
@@ -1172,4 +1232,104 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get stopwatch_title => 'Stopwatch';
+
+  @override
+  String get workoutScreen_title => 'Workout';
+
+  @override
+  String get workoutScreen_gym => 'Choose gym';
+
+  @override
+  String get workoutScreen_gymAndDate => 'Select Gym & Date';
+
+  @override
+  String get workoutScreen_selectGymFirst => 'Please select a gym first';
+
+  @override
+  String get workoutScreen_noGymSelected => 'No gym selected';
+
+  @override
+  String get workoutScreen_saved => 'Workout saved!';
+
+  @override
+  String get workoutScreen_participants => 'Participants';
+
+  @override
+  String get workoutScreen_plans => 'Plans';
+
+  @override
+  String get workoutScreen_exercises => 'Exercises';
+
+  @override
+  String get workoutScreen_addExercise => 'Add Exercise';
+
+  @override
+  String get workoutScreen_addNote => 'Add note';
+
+  @override
+  String get workoutScreen_saveNote => 'Save note';
+
+  @override
+  String get workoutScreen_savedNote => 'Saved';
+
+  @override
+  String get workoutScreen_showMoreInfo => 'Show more information';
+
+  @override
+  String get workoutScreen_firstTime => 'First time';
+
+  @override
+  String get restoreSession_title => 'Workout Interrupted';
+
+  @override
+  String get restoreSession_info =>
+      'Your previous training session was interrupted.';
+
+  @override
+  String get restoreSession_content =>
+      'Would you like to restore your progress?';
+
+  @override
+  String get restoreSession_confirm => 'Yes, restore';
+
+  @override
+  String get restoreSession_deny => 'Start Fresh';
+
+  @override
+  String get saveWorkoutDialog_save_workout_title =>
+      'Do you want to save your workout?';
+
+  @override
+  String get saveWorkoutDialog_save_workout_subtitle =>
+      'Save this workout so you can revisit it later';
+
+  @override
+  String get saveWorkoutDialog_save_workout_button => 'Save Workout';
+
+  @override
+  String get saveWorkoutDialog_dont_save_workout_button => 'Not now';
+
+  @override
+  String get saveWorkoutDialog_support_us_title => 'Support Us';
+
+  @override
+  String get saveWorkoutDialog_support_us_subtitle =>
+      'Watch a short ad to support the app!';
+
+  @override
+  String get editDeleteBottomSheet_edit => 'Edit';
+
+  @override
+  String get editDeleteBottomSheet_delete => 'Delete';
+
+  @override
+  String get noTrainingSection_noSaved => 'No saved workouts for this exercise';
+
+  @override
+  String get noTrainingSection_startNew =>
+      'To start a new workout and save results, click the button:';
+
+  @override
+  String get noTrainingSection_addPrevious =>
+      'You can also use this button to add previous workouts';
 }

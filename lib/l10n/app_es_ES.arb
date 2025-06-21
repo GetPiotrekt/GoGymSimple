@@ -128,6 +128,7 @@
   "plateDialog_close": "Cerrar",
   "plateDialog_invalidWeight": "El peso debe ser mayor que el de la barra",
   "plateDialog_invalidTargetWeight": "El peso objetivo es demasiado bajo",
+  "plateDialog_noCombinationFound": "No se encontró una combinación válida de discos para el peso seleccionado",
 
   "measurementTile_noData": "No hay datos. Pulsa el botón 'Medir' para añadir un valor.",
   "measurementTile_addData": "Medir",
@@ -210,6 +211,9 @@
   "tabBottomDrawer_enterGymName": "Introduce el nombre del gimnasio",
   "tabBottomDrawer_enterUserName": "Introduce el nombre del usuario",
   "tabBottomDrawer_enterWorkoutPlanName": "Introduce el nombre del plan de entrenamiento",
+  "tabBottomDrawer_editTitle": "Editar nombre",
+  "tabBottomDrawer_editLabel": "Introduce un nuevo nombre",
+  "tabBottomDrawer_refreshScreen": "Actualiza la pantalla para ver los cambios",
 
   "tabSector_gym": "Gimnasio",
   "tabSector_user": "Usuario",
@@ -260,7 +264,7 @@
   "addUserAndGym_selectGym": "Selecciona gimnasio",
   "addUserAndGym_confirmSelection": "Confirmar selección",
   "addUserAndGym_workoutExists": "Este entrenamiento ya existe para el usuario y gimnasio seleccionados.",
-  "addUserAndGym_workoutGlobalNote": "Nota global para el ejercicio {exerciseName}",
+  "addUserAndGym_workoutGlobalNote": "Agrega una nota general para el ejercicio {exerciseName}, por ejemplo: configuración de la máquina, tipo de agarre, consejos técnicos, etc.",
 
   "resultsExpansion_title": "{userName} • {gymName}",
   "resultsExpansion_lastNoteDate": "Última nota: {date}",
@@ -346,6 +350,9 @@
   "shareApp_shareButton": "Compartir vía...",
   "shareApp_linkCopied": "Enlace copiado al portapapeles",
   "shareApp_shareText": "Mira esta aplicación:",
+  "shareApp_ratingTitle": "¿Te gusta GoGymSimple?",
+  "shareApp_ratingSubtitle": "¿Te gustaría calificar GoGymSimple? Tu opinión ayuda a otros a descubrir la app.",
+  "shareApp_ratingYes": "¡Claro!",
 
   "donate_title": "Apóyanos",
 
@@ -401,5 +408,28 @@
 
   "welcomeEnd_welcome": "Bienvenido a GoGymSimple",
 
-  "stopwatch_title": "Cronómetro"
+  "stopwatch_title": "Cronómetro",
+
+  "workoutScreen_title": "Entrenamiento",
+  "workoutScreen_gym": "Selecciona gimnasio",
+  "workoutScreen_gymAndDate": "Selecciona gimnasio y fecha",
+  "workoutScreen_selectGymFirst": "Primero selecciona un gimnasio",
+  "workoutScreen_noGymSelected": "Ningún gimnasio seleccionado",
+  "workoutScreen_saved": "¡Entrenamiento guardado!",
+  "workoutScreen_participants": "Participantes",
+  "workoutScreen_plans": "Planes",
+  "workoutScreen_exercises": "Ejercicios",
+  "workoutScreen_addExercise": "Agregar ejercicio",
+  "workoutScreen_addNote": "Agregar nota",
+  "workoutScreen_saveNote": "Guardar nota",
+  "workoutScreen_savedNote": "Guardado",
+  "workoutScreen_showMoreInfo": "Mostrar más información",
+
+  "saveWorkoutDialog_save_workout_title": "¿Quieres guardar el entrenamiento?",
+  "saveWorkoutDialog_save_workout_subtitle": "Guarda este entrenamiento para volver más tarde",
+  "saveWorkoutDialog_save_workout_button": "Guardar entrenamiento",
+  "saveWorkoutDialog_dont_save_workout_button": "Ahora no",
+  "saveWorkoutDialog_support_us_title": "Apóyanos",
+  "saveWorkoutDialog_support_us_subtitle": "¡Mira un anuncio corto para apoyar la aplicación!"
+
 }

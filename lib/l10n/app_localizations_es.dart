@@ -401,6 +401,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'El peso objetivo es demasiado bajo';
 
   @override
+  String get plateDialog_noCombinationFound =>
+      'No se encontró una combinación válida de discos para el peso seleccionado';
+
+  @override
   String get measurementTile_noData =>
       'No hay datos. Pulsa el botón \'Medir\' para añadir un valor.';
 
@@ -473,6 +477,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Puedes añadir una nueva categoría con el botón de abajo.';
 
   @override
+  String get measurementTracker_measurementDate => 'Fecha de medición';
+
+  @override
   String get weightTracker_title => 'Seguimiento de peso';
 
   @override
@@ -494,6 +501,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String weightTracker_daysAgo(Object daysAgo) {
     return ' hace $daysAgo días';
   }
+
+  @override
+  String get weightTracker_legendWeightSaved => 'Días con peso guardado';
 
   @override
   String get drawer_tools_section => 'Herramientas';
@@ -642,6 +652,19 @@ class AppLocalizationsEs extends AppLocalizations {
       'Introduce el nombre del plan de entrenamiento';
 
   @override
+  String get tabBottomDrawer_editTitle => 'Editar nombre';
+
+  @override
+  String get tabBottomDrawer_editExercise => 'Editar ejercicio';
+
+  @override
+  String get tabBottomDrawer_editLabel => 'Introduce un nuevo nombre';
+
+  @override
+  String get tabBottomDrawer_refreshScreen =>
+      'Actualiza la pantalla para ver los cambios';
+
+  @override
   String get tabSector_gym => 'Gimnasio';
 
   @override
@@ -652,6 +675,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tabSector_workoutPlan => 'Plan de entrenamiento';
+
+  @override
+  String get tabSector_userGym => 'Usuario y Gimnasio';
+
+  @override
+  String get tabSector_filter => 'Filtrar';
 
   @override
   String get sortSector_aToZ => 'A ... Z';
@@ -783,7 +812,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String addUserAndGym_title(Object exercise) {
-    return 'Asignar $exercise a usuario y gimnasio';
+    return 'Asignar ejercicio a usuario y gimnasio';
   }
 
   @override
@@ -801,7 +830,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String addUserAndGym_workoutGlobalNote(Object exerciseName) {
-    return 'Nota global para el ejercicio $exerciseName';
+    return 'Agrega una nota general para el ejercicio, por ejemplo: configuración de la máquina, tipo de agarre, consejos técnicos, etc.';
   }
 
   @override
@@ -818,7 +847,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get resultsExpansion_quickValue => 'Establecer valor rápido';
 
   @override
-  String get resultsExpansion_quickValueSet => 'Introduce texto o número';
+  String get resultsExpansion_quickValueSet =>
+      'p. ej. objetivo del entrenamiento o la mejor serie';
 
   @override
   String get resultsExpansion_deleteWorkoutConfirmation =>
@@ -862,7 +892,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notificationScreen_permissionTooltip =>
-      'Solicitar permisos para notificaciones';
+      'Haz clic aquí para habilitar las notificaciones editables';
 
   @override
   String get notificationList_title => 'Notificaciones guardadas:';
@@ -906,6 +936,17 @@ class AppLocalizationsEs extends AppLocalizations {
       '¿Seguro que quieres eliminar esta notificación?';
 
   @override
+  String get notificationList_deleteAll => 'Eliminar todas';
+
+  @override
+  String get notificationList_confirmAll_title =>
+      '¿Eliminar todas las notificaciones?';
+
+  @override
+  String get notificationList_confirmAll_content =>
+      '¿Estás seguro de que deseas eliminar todas las notificaciones guardadas?';
+
+  @override
   String get notificationForm_titleLabel => 'Título de la notificación:';
 
   @override
@@ -926,7 +967,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notificationForm_added => '¡Notificación añadida!';
 
   @override
-  String get notificationForm_typeLabel => 'Tipo de recordatorio:';
+  String get notificationForm_typeLabel => 'Recordatorio:';
 
   @override
   String get notificationForm_typeTraining => 'Sobre el entrenamiento';
@@ -941,7 +982,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notificationForm_typeCustom => 'Personalizado';
 
   @override
-  String get notificationForm_modeLabel => 'Modo de notificación:';
+  String get notificationForm_modeLabel => 'Horario:';
 
   @override
   String get notificationForm_modeDaily => 'Diariamente';
@@ -1001,6 +1042,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Es hora de medir tu cuerpo. ¡Sigue tus progresos!';
 
   @override
+  String get notificationForm_testNotification => 'Probar notificación';
+
+  @override
   String get timePicker_label => 'Hora';
 
   @override
@@ -1015,6 +1059,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get watchAds_counter => 'Anuncios vistos:';
+
+  @override
+  String get watchAds_error =>
+      '¡Gracias por tu apoyo! Desafortunadamente, no se pudo cargar el anuncio';
 
   @override
   String get shareApp_title => 'Comparte la aplicación';
@@ -1035,6 +1083,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shareApp_linkCopied => 'Enlace copiado al portapapeles';
+
+  @override
+  String get shareApp_ratingTitle => '¿Te gusta GoGymSimple?';
+
+  @override
+  String get shareApp_ratingSubtitle =>
+      '¿Te gustaría calificar GoGymSimple? Tu opinión ayuda a otros a descubrir la app.';
+
+  @override
+  String get shareApp_ratingYes => '¡Claro!';
 
   @override
   String get donate_title => 'Apóyanos';
@@ -1067,6 +1125,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get donateSections_voluntaryTitle => '100% Voluntario';
+
+  @override
+  String get donateSections_storeUnavailableMessage =>
+      'Tienda no disponible. Verifica tu conexión a internet';
 
   @override
   String get donateSections_voluntaryDesc =>
@@ -1185,6 +1247,106 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get stopwatch_title => 'Cronómetro';
+
+  @override
+  String get workoutScreen_title => 'Entrenamiento';
+
+  @override
+  String get workoutScreen_gym => 'Selecciona gimnasio';
+
+  @override
+  String get workoutScreen_gymAndDate => 'Selecciona gimnasio y fecha';
+
+  @override
+  String get workoutScreen_selectGymFirst => 'Primero selecciona un gimnasio';
+
+  @override
+  String get workoutScreen_noGymSelected => 'Ningún gimnasio seleccionado';
+
+  @override
+  String get workoutScreen_saved => '¡Entrenamiento guardado!';
+
+  @override
+  String get workoutScreen_participants => 'Participantes';
+
+  @override
+  String get workoutScreen_plans => 'Planes';
+
+  @override
+  String get workoutScreen_exercises => 'Ejercicios';
+
+  @override
+  String get workoutScreen_addExercise => 'Agregar ejercicio';
+
+  @override
+  String get workoutScreen_addNote => 'Agregar nota';
+
+  @override
+  String get workoutScreen_saveNote => 'Guardar nota';
+
+  @override
+  String get workoutScreen_savedNote => 'Guardado';
+
+  @override
+  String get workoutScreen_showMoreInfo => 'Mostrar más información';
+
+  @override
+  String get workoutScreen_firstTime => 'Primera vez';
+
+  @override
+  String get restoreSession_title => 'Entrenamiento interrumpido';
+
+  @override
+  String get restoreSession_info =>
+      'Tu sesión de entrenamiento anterior fue interrumpida.';
+
+  @override
+  String get restoreSession_content => '¿Quieres restaurar tu progreso?';
+
+  @override
+  String get restoreSession_confirm => 'Sí, restaurar';
+
+  @override
+  String get restoreSession_deny => 'Empezar de nuevo';
+
+  @override
+  String get saveWorkoutDialog_save_workout_title =>
+      '¿Quieres guardar el entrenamiento?';
+
+  @override
+  String get saveWorkoutDialog_save_workout_subtitle =>
+      'Guarda este entrenamiento para volver más tarde';
+
+  @override
+  String get saveWorkoutDialog_save_workout_button => 'Guardar entrenamiento';
+
+  @override
+  String get saveWorkoutDialog_dont_save_workout_button => 'Ahora no';
+
+  @override
+  String get saveWorkoutDialog_support_us_title => 'Apóyanos';
+
+  @override
+  String get saveWorkoutDialog_support_us_subtitle =>
+      '¡Mira un anuncio corto para apoyar la aplicación!';
+
+  @override
+  String get editDeleteBottomSheet_edit => 'Editar';
+
+  @override
+  String get editDeleteBottomSheet_delete => 'Eliminar';
+
+  @override
+  String get noTrainingSection_noSaved =>
+      'No hay entrenamientos guardados para este ejercicio';
+
+  @override
+  String get noTrainingSection_startNew =>
+      'Para comenzar un nuevo entrenamiento y guardar resultados, haga clic en el botón:';
+
+  @override
+  String get noTrainingSection_addPrevious =>
+      'También puedes usar este botón para agregar entrenamientos anteriores';
 }
 
 /// The translations for Spanish Castilian, as used in Colombia (`es_CO`).
@@ -1584,6 +1746,10 @@ class AppLocalizationsEsCo extends AppLocalizationsEs {
       'El peso objetivo es demasiado bajo';
 
   @override
+  String get plateDialog_noCombinationFound =>
+      'No se encontró una combinación válida de discos para el peso seleccionado';
+
+  @override
   String get measurementTile_noData =>
       'No hay datos. Pulsa el botón \'Medir\' para añadir un valor.';
 
@@ -1825,6 +1991,16 @@ class AppLocalizationsEsCo extends AppLocalizationsEs {
       'Introduce el nombre del plan de entrenamiento';
 
   @override
+  String get tabBottomDrawer_editTitle => 'Editar nombre';
+
+  @override
+  String get tabBottomDrawer_editLabel => 'Introduce un nuevo nombre';
+
+  @override
+  String get tabBottomDrawer_refreshScreen =>
+      'Actualiza la pantalla para ver los cambios';
+
+  @override
   String get tabSector_gym => 'Gimnasio';
 
   @override
@@ -1984,7 +2160,7 @@ class AppLocalizationsEsCo extends AppLocalizationsEs {
 
   @override
   String addUserAndGym_workoutGlobalNote(Object exerciseName) {
-    return 'Nota global para el ejercicio $exerciseName';
+    return 'Agrega una nota general para el ejercicio $exerciseName, por ejemplo: configuración de la máquina, tipo de agarre, consejos técnicos, etc.';
   }
 
   @override
@@ -2220,6 +2396,16 @@ class AppLocalizationsEsCo extends AppLocalizationsEs {
   String get shareApp_linkCopied => 'Enlace copiado al portapapeles';
 
   @override
+  String get shareApp_ratingTitle => '¿Te gusta GoGymSimple?';
+
+  @override
+  String get shareApp_ratingSubtitle =>
+      '¿Te gustaría calificar GoGymSimple? Tu opinión ayuda a otros a descubrir la app.';
+
+  @override
+  String get shareApp_ratingYes => '¡Claro!';
+
+  @override
   String get donate_title => 'Apóyanos';
 
   @override
@@ -2368,6 +2554,69 @@ class AppLocalizationsEsCo extends AppLocalizationsEs {
 
   @override
   String get stopwatch_title => 'Cronómetro';
+
+  @override
+  String get workoutScreen_title => 'Entrenamiento';
+
+  @override
+  String get workoutScreen_gym => 'Selecciona gimnasio';
+
+  @override
+  String get workoutScreen_gymAndDate => 'Selecciona gimnasio y fecha';
+
+  @override
+  String get workoutScreen_selectGymFirst => 'Primero selecciona un gimnasio';
+
+  @override
+  String get workoutScreen_noGymSelected => 'Ningún gimnasio seleccionado';
+
+  @override
+  String get workoutScreen_saved => '¡Entrenamiento guardado!';
+
+  @override
+  String get workoutScreen_participants => 'Participantes';
+
+  @override
+  String get workoutScreen_plans => 'Planes';
+
+  @override
+  String get workoutScreen_exercises => 'Ejercicios';
+
+  @override
+  String get workoutScreen_addExercise => 'Agregar ejercicio';
+
+  @override
+  String get workoutScreen_addNote => 'Agregar nota';
+
+  @override
+  String get workoutScreen_saveNote => 'Guardar nota';
+
+  @override
+  String get workoutScreen_savedNote => 'Guardado';
+
+  @override
+  String get workoutScreen_showMoreInfo => 'Mostrar más información';
+
+  @override
+  String get saveWorkoutDialog_save_workout_title =>
+      '¿Quieres guardar el entrenamiento?';
+
+  @override
+  String get saveWorkoutDialog_save_workout_subtitle =>
+      'Guarda este entrenamiento para volver más tarde';
+
+  @override
+  String get saveWorkoutDialog_save_workout_button => 'Guardar entrenamiento';
+
+  @override
+  String get saveWorkoutDialog_dont_save_workout_button => 'Ahora no';
+
+  @override
+  String get saveWorkoutDialog_support_us_title => 'Apóyanos';
+
+  @override
+  String get saveWorkoutDialog_support_us_subtitle =>
+      '¡Mira un anuncio corto para apoyar la aplicación!';
 }
 
 /// The translations for Spanish Castilian, as used in Spain (`es_ES`).
@@ -2767,6 +3016,10 @@ class AppLocalizationsEsEs extends AppLocalizationsEs {
       'El peso objetivo es demasiado bajo';
 
   @override
+  String get plateDialog_noCombinationFound =>
+      'No se encontró una combinación válida de discos para el peso seleccionado';
+
+  @override
   String get measurementTile_noData =>
       'No hay datos. Pulsa el botón \'Medir\' para añadir un valor.';
 
@@ -3008,6 +3261,16 @@ class AppLocalizationsEsEs extends AppLocalizationsEs {
       'Introduce el nombre del plan de entrenamiento';
 
   @override
+  String get tabBottomDrawer_editTitle => 'Editar nombre';
+
+  @override
+  String get tabBottomDrawer_editLabel => 'Introduce un nuevo nombre';
+
+  @override
+  String get tabBottomDrawer_refreshScreen =>
+      'Actualiza la pantalla para ver los cambios';
+
+  @override
   String get tabSector_gym => 'Gimnasio';
 
   @override
@@ -3167,7 +3430,7 @@ class AppLocalizationsEsEs extends AppLocalizationsEs {
 
   @override
   String addUserAndGym_workoutGlobalNote(Object exerciseName) {
-    return 'Nota global para el ejercicio $exerciseName';
+    return 'Agrega una nota general para el ejercicio $exerciseName, por ejemplo: configuración de la máquina, tipo de agarre, consejos técnicos, etc.';
   }
 
   @override
@@ -3403,6 +3666,16 @@ class AppLocalizationsEsEs extends AppLocalizationsEs {
   String get shareApp_linkCopied => 'Enlace copiado al portapapeles';
 
   @override
+  String get shareApp_ratingTitle => '¿Te gusta GoGymSimple?';
+
+  @override
+  String get shareApp_ratingSubtitle =>
+      '¿Te gustaría calificar GoGymSimple? Tu opinión ayuda a otros a descubrir la app.';
+
+  @override
+  String get shareApp_ratingYes => '¡Claro!';
+
+  @override
   String get donate_title => 'Apóyanos';
 
   @override
@@ -3551,4 +3824,67 @@ class AppLocalizationsEsEs extends AppLocalizationsEs {
 
   @override
   String get stopwatch_title => 'Cronómetro';
+
+  @override
+  String get workoutScreen_title => 'Entrenamiento';
+
+  @override
+  String get workoutScreen_gym => 'Selecciona gimnasio';
+
+  @override
+  String get workoutScreen_gymAndDate => 'Selecciona gimnasio y fecha';
+
+  @override
+  String get workoutScreen_selectGymFirst => 'Primero selecciona un gimnasio';
+
+  @override
+  String get workoutScreen_noGymSelected => 'Ningún gimnasio seleccionado';
+
+  @override
+  String get workoutScreen_saved => '¡Entrenamiento guardado!';
+
+  @override
+  String get workoutScreen_participants => 'Participantes';
+
+  @override
+  String get workoutScreen_plans => 'Planes';
+
+  @override
+  String get workoutScreen_exercises => 'Ejercicios';
+
+  @override
+  String get workoutScreen_addExercise => 'Agregar ejercicio';
+
+  @override
+  String get workoutScreen_addNote => 'Agregar nota';
+
+  @override
+  String get workoutScreen_saveNote => 'Guardar nota';
+
+  @override
+  String get workoutScreen_savedNote => 'Guardado';
+
+  @override
+  String get workoutScreen_showMoreInfo => 'Mostrar más información';
+
+  @override
+  String get saveWorkoutDialog_save_workout_title =>
+      '¿Quieres guardar el entrenamiento?';
+
+  @override
+  String get saveWorkoutDialog_save_workout_subtitle =>
+      'Guarda este entrenamiento para volver más tarde';
+
+  @override
+  String get saveWorkoutDialog_save_workout_button => 'Guardar entrenamiento';
+
+  @override
+  String get saveWorkoutDialog_dont_save_workout_button => 'Ahora no';
+
+  @override
+  String get saveWorkoutDialog_support_us_title => 'Apóyanos';
+
+  @override
+  String get saveWorkoutDialog_support_us_subtitle =>
+      '¡Mira un anuncio corto para apoyar la aplicación!';
 }

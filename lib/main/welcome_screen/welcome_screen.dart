@@ -47,8 +47,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       _isHomeSelected = isSelected;
     });
   }
-
-
+  
   void onGymToggle(bool selected) {
     setState(() {
       isGymSelected = selected;
@@ -60,6 +59,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     });
   }
 
+  void _onResetSelectedExercises() {
+    setState(() {
+      _selectedExercises.clear();
+    });
+  }
+  
   void onNext() {
     _nextPage();
   }
@@ -202,6 +207,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               WelcomeExerciseStep.build(
                 cp: cp,
                 context: context,
+                locale: Locale(_selectedLanguage),
                 allExercises: translatedExerciseList,
                 selectedExercises: _selectedExercises,
                 onExerciseToggle: (exercise, selected) {
@@ -216,6 +222,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 onNext: _nextPage,
                 onAddExercise: _addNewExercise,
                 newExerciseController: _newExerciseController,
+                onResetSelectedExercises: _onResetSelectedExercises,
               ),
             ],
           ),
