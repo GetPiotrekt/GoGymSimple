@@ -1,0 +1,81 @@
+name: GoGymSimple
+description: "GoGym thats simple"
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+11 #flutter build appbundle / flutter build apk --release
+
+environment:
+  sdk: ^3.5.3
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
+  flutter_material_color_picker: ^1.0.2
+  flutter_colorpicker: ^1.1.0
+  collection: ^1.15.0
+  intl: ^0.20.2
+  provider: ^6.1.5
+  table_calendar: ^3.0.0
+  permission_handler: ^11.4.0
+  timezone: ^0.10.1
+  flutter_local_notifications: ^19.2.1
+  share_plus: ^7.2.2
+  google_mobile_ads: ^6.0.0
+  confetti: ^0.7.0
+  in_app_purchase: ^3.2.3
+  url_launcher: ^6.1.7
+  cupertino_icons: ^1.0.8
+  tutorial_coach_mark: ^1.3.0
+  app_settings: ^5.1.1
+  #connectivity_plus: ^5.0.2
+
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.9.3
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  android: true
+  # flutter pub run flutter_launcher_icons:main
+  image_path: "assets/icons/logo_final_dnb.png"
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+  generate: true
+
+  fonts:
+    - family: BarlowSemiCondensed
+      fonts:
+        - asset: assets/fonts/BarlowSemiCondensed-Regular.ttf
+        - asset: assets/fonts/BarlowSemiCondensed-Bold.ttf
+          weight: 700
+
+  assets:
+    - assets/icons/barbell.png
+    - assets/icons/cardio.png
+    - assets/icons/dumbbell.png
+    - assets/icons/bodyweight.png
+    - assets/icons/machine.png
+    - assets/icons/plate.png
+    - assets/icons/kettle.png
+    - assets/icons/cable.png
+    - assets/icons/default.png
+    - assets/icons/logo_bl.png
